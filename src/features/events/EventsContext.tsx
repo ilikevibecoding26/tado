@@ -6,8 +6,8 @@ type EventsContextValue = ReturnType<typeof useEvents>
 
 const EventsContext = createContext<EventsContextValue | null>(null)
 
-export function EventsProvider({ children }: { children: ReactNode }) {
-  const value = useEvents()
+export function EventsProvider({ userId, children }: { userId: string; children: ReactNode }) {
+  const value = useEvents(userId)
   return <EventsContext.Provider value={value}>{children}</EventsContext.Provider>
 }
 

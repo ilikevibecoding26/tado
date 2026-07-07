@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { CalendarEvent } from '../features/events/types'
 import type { CalendarView } from '../features/events/dateUtils'
 import { shiftDate } from '../features/events/dateUtils'
+import { useEventsContext } from '../features/events/EventsContext'
 import { Toolbar } from './Toolbar'
 import { MonthView } from './MonthView'
 import { WeekView } from './WeekView'
@@ -13,6 +14,7 @@ import './Calendar.css'
 type FormModalState = { mode: 'create'; date: Date } | { mode: 'edit'; event: CalendarEvent } | null
 
 export function Calendar() {
+  const { syncError } = useEventsContext()
   const [currentDate, setCurrentDate] = useState(() => new Date())
   const [view, setView] = useState<CalendarView>('month')
   const [formModal, setFormModal] = useState<FormModalState>(null)
@@ -45,6 +47,7 @@ export function Calendar() {
         onNext={handleNext}
         onViewChange={setView}
       />
+      {syncError && <div className="calendar-sync-error">{syncError}</div>}
       <div className="calendar-body">
         <div key={`${view}-${currentDate.toDateString()}`} className="calendar-view-enter">
           {view === 'month' && (

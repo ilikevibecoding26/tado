@@ -1,0 +1,94 @@
+.sign-in {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.sign-in-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: min(360px, 100%);
+  padding: 32px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  text-align: center;
+}
+
+.sign-in-card h1 {
+  margin: 8px 0 0;
+  font-size: 28px;
+}
+
+.sign-in-subtitle {
+  margin: 0 0 16px;
+  color: var(--text);
+  font-size: 14px;
+}
+
+.sign-in-card form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sign-in-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.sign-in-field input {
+  font: inherit;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text-h);
+}
+
+.sign-in-error {
+  color: #dc2626;
+  font-size: 13px;
+  margin: 0;
+}
+
+.sign-in-info {
+  color: #15803d;
+  font-size: 13px;
+  margin: 0;
+}
+
+.sign-in-card button.primary {
+  font: inherit;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: white;
+  border-radius: 6px;
+  padding: 8px 14px;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+.sign-in-card button.primary:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.sign-in-toggle {
+  font: inherit;
+  font-size: 13px;
+  border: none;
+  background: none;
+  color: var(--accent);
+  cursor: pointer;
+  margin-top: 12px;
+  padding: 0;
+}

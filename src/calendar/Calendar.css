@@ -11,6 +11,13 @@
   overflow: auto;
 }
 
+.calendar-sync-error {
+  padding: 8px 20px;
+  background: rgba(220, 38, 38, 0.1);
+  color: #dc2626;
+  font-size: 13px;
+}
+
 .calendar-view-enter {
   height: 100%;
   animation: fade-slide-in 0.28s ease both;

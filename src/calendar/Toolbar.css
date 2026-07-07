@@ -44,3 +44,8 @@
   border-color: var(--accent-border);
   color: var(--accent);
 }
+
+.toolbar-sign-out {
+  margin-left: 8px;
+  color: var(--text);
+}
