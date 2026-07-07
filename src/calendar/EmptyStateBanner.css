@@ -1,0 +1,16 @@
+.empty-state-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  margin: 12px;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  animation: fade-slide-in 0.3s ease both;
+}
+
+.empty-state-banner p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text);
+}

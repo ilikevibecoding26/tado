@@ -1,0 +1,55 @@
+.month-day-cell {
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-height: 96px;
+  cursor: pointer;
+}
+
+.month-day-cell.outside-month {
+  color: var(--border);
+  background: var(--code-bg);
+}
+
+.month-day-number {
+  font-size: 13px;
+  align-self: flex-start;
+  padding: 2px 6px;
+  border-radius: 999px;
+}
+
+.month-day-number.today {
+  background: var(--accent);
+  color: white;
+  animation: today-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes today-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(170, 59, 255, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(170, 59, 255, 0);
+  }
+}
+
+.month-day-events {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.month-day-more {
+  font: inherit;
+  font-size: 12px;
+  text-align: left;
+  border: none;
+  background: none;
+  color: var(--text);
+  cursor: pointer;
+  padding: 2px 6px;
+}

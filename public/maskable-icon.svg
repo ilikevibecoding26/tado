@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" fill="#ffffff"/>
+  <g transform="translate(22,22) scale(0.56)">
+    <defs>
+      <clipPath id="maskableClip">
+        <rect width="100" height="100" rx="22" ry="22"/>
+      </clipPath>
+    </defs>
+    <g clip-path="url(#maskableClip)">
+      <rect width="100" height="100" fill="#ffffff"/>
+      <rect width="100" height="38" fill="#aa3bff"/>
+      <rect x="38" y="10" width="9" height="20" rx="4.5" fill="#ffffff"/>
+      <rect x="53" y="10" width="9" height="20" rx="4.5" fill="#ffffff"/>
+    </g>
+    <text x="50" y="84" text-anchor="middle" font-family="system-ui, sans-serif" font-size="56" font-weight="700" fill="#aa3bff">3</text>
+  </g>
+</svg>
