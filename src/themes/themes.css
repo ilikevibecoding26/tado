@@ -1,0 +1,379 @@
+/*
+ * Theme palettes. The active theme is the `data-theme` attribute on <html>; Settings preview
+ * cards reuse the same selectors, so every theme block must define every token it relies on.
+ *
+ * Themes with a light and a dark look follow the OS setting; "space" and "arcade" are always dark.
+ * Order matters: the default block comes first, then each theme (light block, then its dark media block).
+ */
+
+/* ---------- TaDo (default) ---------- */
+:root,
+[data-theme='tado'] {
+  color-scheme: light dark;
+
+  --text: #6b6375;
+  --text-h: #08060d;
+  --bg: #fff;
+  --bg-image: none;
+  --border: #e5e4e7;
+  --code-bg: #f4f3ec;
+  --accent: #aa3bff;
+  --accent-bg: rgba(170, 59, 255, 0.1);
+  --accent-border: rgba(170, 59, 255, 0.5);
+  --accent-contrast: #fff;
+  --danger: #dc2626;
+
+  --hue-blue: #3b82f6;
+  --hue-green: #22c55e;
+  --hue-red: #ef4444;
+  --hue-yellow: #eab308;
+  --hue-purple: var(--accent);
+  --hue-gray: #6b7280;
+  --confetti: #aa3bff, #47bfff, #ffb703, #22c55e, #ef4444, #f472b6;
+
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root,
+  [data-theme='tado'] {
+    --text: #9ca3af;
+    --text-h: #f3f4f6;
+    --bg: #16171d;
+    --border: #2e303a;
+    --code-bg: #1f2028;
+    --accent: #c084fc;
+    --accent-bg: rgba(192, 132, 252, 0.15);
+    --accent-border: rgba(192, 132, 252, 0.5);
+    --danger: #f87171;
+  }
+}
+
+/* ---------- Minimal ---------- */
+[data-theme='minimal'] {
+  --text: #5f6672;
+  --text-h: #111;
+  --bg: #fff;
+  --bg-image: none;
+  --border: #e5e5e5;
+  --code-bg: #f6f6f6;
+  --accent: #111;
+  --accent-bg: rgba(0, 0, 0, 0.06);
+  --accent-border: rgba(0, 0, 0, 0.35);
+  --accent-contrast: #fff;
+  --danger: #c2261b;
+
+  --hue-blue: #3b82f6;
+  --hue-green: #22c55e;
+  --hue-red: #ef4444;
+  --hue-yellow: #eab308;
+  --hue-purple: var(--accent);
+  --hue-gray: #6b7280;
+  --confetti: #111, #6b7280, #a3a3a3, #d4d4d4, #3b82f6, #ef4444;
+
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme='minimal'] {
+    --text: #a3a3a3;
+    --text-h: #f5f5f5;
+    --bg: #0f0f0f;
+    --border: #262626;
+    --code-bg: #171717;
+    --accent: #f5f5f5;
+    --accent-bg: rgba(255, 255, 255, 0.08);
+    --accent-border: rgba(255, 255, 255, 0.35);
+    --accent-contrast: #0f0f0f;
+    --danger: #f87171;
+    --confetti: #f5f5f5, #a3a3a3, #737373, #404040, #60a5fa, #f87171;
+  }
+}
+
+/* ---------- Candy ---------- */
+[data-theme='candy'] {
+  --text: #85507a;
+  --text-h: #4a1d3d;
+  --bg: #fff6fa;
+  --bg-image: linear-gradient(160deg, #fff0f7 0%, #f5f0ff 55%, #ebfcf6 100%);
+  --border: #f4c6dd;
+  --code-bg: #ffe9f4;
+  --accent: #c8286f;
+  --accent-bg: rgba(200, 40, 111, 0.12);
+  --accent-border: rgba(200, 40, 111, 0.5);
+  --accent-contrast: #fff;
+  --danger: #d4202f;
+
+  --hue-blue: #4aa8ff;
+  --hue-green: #2fcf9a;
+  --hue-red: #ff5c82;
+  --hue-yellow: #f2ae00;
+  --hue-purple: #a77bff;
+  --hue-gray: #a496b3;
+  --confetti: #ff7eb6, #ffd166, #7ad7f0, #b5ead7, #c7a2ff, #ff9aa2;
+
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 26px;
+
+  --sans: ui-rounded, 'SF Pro Rounded', 'Nunito', system-ui, sans-serif;
+  --heading: ui-rounded, 'SF Pro Rounded', 'Nunito', system-ui, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme='candy'] {
+    --text: #dba9cc;
+    --text-h: #ffe9f5;
+    --bg: #2a1827;
+    --bg-image: linear-gradient(160deg, #331d30 0%, #281a38 55%, #1a2a2c 100%);
+    --border: #5c2f55;
+    --code-bg: #371f34;
+    --accent: #ff7eb6;
+    --accent-bg: rgba(255, 126, 182, 0.16);
+    --accent-border: rgba(255, 126, 182, 0.5);
+    --accent-contrast: #2a1827;
+    --danger: #ff8a96;
+  }
+}
+
+/* ---------- Space (always dark) ---------- */
+[data-theme='space'] {
+  color-scheme: dark;
+
+  --text: #9aa6c8;
+  --text-h: #eaf0ff;
+  --bg: #070b1a;
+  --bg-image:
+    radial-gradient(1px 1px at 8% 12%, rgba(255, 255, 255, 0.75), transparent),
+    radial-gradient(1.5px 1.5px at 22% 40%, rgba(255, 255, 255, 0.55), transparent),
+    radial-gradient(1px 1px at 35% 8%, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1px 1px at 47% 63%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1.5px 1.5px at 61% 22%, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1px 1px at 74% 78%, rgba(255, 255, 255, 0.55), transparent),
+    radial-gradient(1px 1px at 86% 35%, rgba(255, 255, 255, 0.65), transparent),
+    radial-gradient(1.5px 1.5px at 93% 88%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1px 1px at 14% 82%, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(ellipse at 85% -10%, rgba(120, 90, 255, 0.22), transparent 55%),
+    radial-gradient(ellipse at 0% 100%, rgba(40, 120, 255, 0.14), transparent 50%);
+  --border: #1f2c58;
+  --code-bg: #0e1530;
+  --accent: #8fa8ff;
+  --accent-bg: rgba(143, 168, 255, 0.15);
+  --accent-border: rgba(143, 168, 255, 0.5);
+  --accent-contrast: #050816;
+  --danger: #ff7a8c;
+
+  --hue-blue: #5b8cff;
+  --hue-green: #3ddc97;
+  --hue-red: #ff5d73;
+  --hue-yellow: #ffd24a;
+  --hue-purple: #a98bff;
+  --hue-gray: #8a93b2;
+  --confetti: #8fa8ff, #ffd24a, #ff7ad9, #7af0ff, #a98bff, #ffffff;
+
+  --radius-xs: 5px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ---------- Retro arcade (always dark) ---------- */
+[data-theme='arcade'] {
+  color-scheme: dark;
+
+  --text: #a2a2d6;
+  --text-h: #f4f4ff;
+  --bg: #0a0a14;
+  --bg-image: none;
+  --border: #38387a;
+  --code-bg: #12122a;
+  --accent: #ff3fd4;
+  --accent-bg: rgba(255, 63, 212, 0.14);
+  --accent-border: rgba(255, 63, 212, 0.6);
+  --accent-contrast: #0a0a14;
+  --danger: #ff5577;
+
+  --hue-blue: #36d9ff;
+  --hue-green: #39ff88;
+  --hue-red: #ff4d6d;
+  --hue-yellow: #ffe14d;
+  --hue-purple: #c77dff;
+  --hue-gray: #8c8cb8;
+  --confetti: #ff3fd4, #36d9ff, #39ff88, #ffe14d, #c77dff, #ff4d6d;
+
+  --radius-xs: 0;
+  --radius-sm: 0;
+  --radius-md: 2px;
+  --radius-lg: 4px;
+
+  --sans: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --heading: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+
+:root[data-theme='arcade'] {
+  font-size: 15px;
+  letter-spacing: 0;
+}
+
+/* ---------- Ocean ---------- */
+[data-theme='ocean'] {
+  --text: #4b6b80;
+  --text-h: #0b2a3d;
+  --bg: #f4fbff;
+  --bg-image: linear-gradient(180deg, #e8f7ff 0%, #f4fbff 45%);
+  --border: #cde5f1;
+  --code-bg: #e3f2fa;
+  --accent: #0a78ab;
+  --accent-bg: rgba(10, 120, 171, 0.12);
+  --accent-border: rgba(10, 120, 171, 0.5);
+  --accent-contrast: #fff;
+  --danger: #cf2a2a;
+
+  --hue-blue: #2f80ed;
+  --hue-green: #1fb58b;
+  --hue-red: #ef5350;
+  --hue-yellow: #f2b01e;
+  --hue-purple: #7c6cf0;
+  --hue-gray: #6b8294;
+  --confetti: #0a7fb5, #2ec4b6, #ffd166, #ff9f68, #6ea8fe, #7c6cf0;
+
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme='ocean'] {
+    --text: #8fb3c9;
+    --text-h: #e6f6ff;
+    --bg: #0a1c2a;
+    --bg-image: linear-gradient(180deg, #0c2538 0%, #0a1c2a 50%);
+    --border: #1c3d55;
+    --code-bg: #0f2638;
+    --accent: #4cc9f0;
+    --accent-bg: rgba(76, 201, 240, 0.15);
+    --accent-border: rgba(76, 201, 240, 0.5);
+    --accent-contrast: #0a1c2a;
+    --danger: #ff8080;
+  }
+}
+
+/* ---------- Forest ---------- */
+[data-theme='forest'] {
+  --text: #556a55;
+  --text-h: #14301c;
+  --bg: #f6faf4;
+  --bg-image: none;
+  --border: #d3e3cd;
+  --code-bg: #e9f2e5;
+  --accent: #2f7d4f;
+  --accent-bg: rgba(47, 125, 79, 0.12);
+  --accent-border: rgba(47, 125, 79, 0.5);
+  --accent-contrast: #fff;
+  --danger: #b92d2d;
+
+  --hue-blue: #3b82c4;
+  --hue-green: #2f9e5b;
+  --hue-red: #d9534f;
+  --hue-yellow: #d9a21b;
+  --hue-purple: #8a6bb8;
+  --hue-gray: #6f7f6f;
+  --confetti: #2f7d4f, #8bc34a, #ffd166, #e07a3f, #6fb3d9, #c9a66b;
+
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: ui-serif, Georgia, 'Times New Roman', serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme='forest'] {
+    --text: #9db6a2;
+    --text-h: #e8f4ea;
+    --bg: #101a14;
+    --border: #26402f;
+    --code-bg: #16251c;
+    --accent: #6fcf8f;
+    --accent-bg: rgba(111, 207, 143, 0.15);
+    --accent-border: rgba(111, 207, 143, 0.5);
+    --accent-contrast: #101a14;
+    --danger: #ff8a80;
+  }
+}
+
+/* ---------- Sunset ---------- */
+[data-theme='sunset'] {
+  --text: #85503f;
+  --text-h: #3d1a12;
+  --bg: #fff8f1;
+  --bg-image: linear-gradient(180deg, #fff1e3 0%, #ffe9ef 55%, #fff8f1 100%);
+  --border: #f4d3bd;
+  --code-bg: #ffeddc;
+  --accent: #c93f17;
+  --accent-bg: rgba(201, 63, 23, 0.12);
+  --accent-border: rgba(201, 63, 23, 0.5);
+  --accent-contrast: #fff;
+  --danger: #b4231a;
+
+  --hue-blue: #4f7cf0;
+  --hue-green: #3fae6a;
+  --hue-red: #e5484d;
+  --hue-yellow: #f4a81d;
+  --hue-purple: #b05fd1;
+  --hue-gray: #8c756c;
+  --confetti: #ff8a5b, #ffd166, #ff5e7e, #b05fd1, #ffb347, #f4845f;
+
+  --radius-xs: 5px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme='sunset'] {
+    --text: #d6aca1;
+    --text-h: #fff0e8;
+    --bg: #241420;
+    --bg-image: linear-gradient(180deg, #34182a 0%, #2a1526 55%, #241420 100%);
+    --border: #4d2b3c;
+    --code-bg: #2e1a2a;
+    --accent: #ff8a5b;
+    --accent-bg: rgba(255, 138, 91, 0.16);
+    --accent-border: rgba(255, 138, 91, 0.5);
+    --accent-contrast: #241420;
+    --danger: #ff8a8a;
+  }
+}
+
+/* Minimal stays still: no pulsing "today" marker. */
+:root[data-theme='minimal'] .month-day-number.today,
+:root[data-theme='minimal'] .time-grid-day-header.today {
+  animation: none;
+}

@@ -1,0 +1,136 @@
+/*
+ * Theme effects beyond color. The level lives on <html data-effects="off|calm|loud">.
+ * Off adds nothing here; Calm and All out switch these on per theme.
+ */
+
+/* The mascot's idle motion. */
+:root[data-effects='calm'] .mascot {
+  animation: mascot-float 5s ease-in-out infinite;
+}
+
+:root[data-effects='loud'] .mascot {
+  animation: mascot-bounce 1.8s ease-in-out infinite;
+}
+
+@keyframes mascot-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes mascot-bounce {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  30% {
+    transform: translateY(-8px) rotate(-4deg);
+  }
+  60% {
+    transform: translateY(0) rotate(3deg);
+  }
+}
+
+/* Each theme's signature look for buttons and cards (a hard pixel shadow, puffy candy, a space glow). */
+:root[data-effects='calm'][data-theme='arcade'] {
+  --fx-shadow: 3px 3px 0 var(--accent-border);
+}
+:root[data-effects='loud'][data-theme='arcade'] {
+  --fx-shadow: 4px 4px 0 var(--accent);
+}
+:root[data-effects='calm'][data-theme='candy'] {
+  --fx-shadow: 0 3px 0 color-mix(in srgb, var(--accent) 30%, transparent);
+}
+:root[data-effects='loud'][data-theme='candy'] {
+  --fx-shadow:
+    0 4px 0 var(--accent-border), inset 0 2px 0 rgba(255, 255, 255, 0.55);
+}
+:root[data-effects='calm'][data-theme='space'] {
+  --fx-shadow: 0 0 10px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+:root[data-effects='loud'][data-theme='space'] {
+  --fx-shadow: 0 0 18px var(--accent-border);
+}
+:root[data-effects='loud'][data-theme='sunset'] {
+  --fx-shadow: 0 4px 16px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.toolbar button,
+.todo-form button.primary,
+.todo-form input,
+.event-form-dialog,
+.event-detail-dialog,
+.sign-in-card,
+.theme-option,
+.empty-state-banner,
+.todo-empty {
+  box-shadow: var(--fx-shadow, none);
+}
+
+/* Dialogs arrive in character on "All out". */
+:root[data-effects='loud'][data-theme='arcade'] .event-form-dialog,
+:root[data-effects='loud'][data-theme='arcade'] .event-detail-dialog {
+  animation: dialog-pixel-in 0.35s steps(6);
+}
+
+:root[data-effects='loud'][data-theme='candy'] .event-form-dialog,
+:root[data-effects='loud'][data-theme='candy'] .event-detail-dialog {
+  animation: dialog-jelly-in 0.55s ease-out;
+}
+
+:root[data-effects='loud'][data-theme='space'] .event-form-dialog,
+:root[data-effects='loud'][data-theme='space'] .event-detail-dialog {
+  animation: dialog-warp-in 0.45s ease-out;
+}
+
+@keyframes dialog-pixel-in {
+  from {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes dialog-jelly-in {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  40% {
+    transform: scale(1.12, 0.92);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(0.96, 1.04);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes dialog-warp-in {
+  from {
+    transform: scale(1.3);
+    opacity: 0;
+    filter: blur(8px);
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .event-form-dialog,
+  .event-detail-dialog {
+    animation: none !important;
+  }
+}

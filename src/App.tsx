@@ -1,7 +1,9 @@
 import { AuthProvider, useAuthContext } from './features/auth/AuthContext'
 import { SignIn } from './features/auth/SignIn'
 import { EventsProvider } from './features/events/EventsContext'
-import { Calendar } from './calendar/Calendar'
+import { TodosProvider } from './features/todos/TodosContext'
+import { AppShell } from './AppShell'
+import { Scenery } from './themes/Scenery'
 import './App.css'
 
 function AppContent() {
@@ -17,7 +19,9 @@ function AppContent() {
 
   return (
     <EventsProvider userId={user.id}>
-      <Calendar />
+      <TodosProvider userId={user.id}>
+        <AppShell />
+      </TodosProvider>
     </EventsProvider>
   )
 }
@@ -25,6 +29,7 @@ function AppContent() {
 function App() {
   return (
     <AuthProvider>
+      <Scenery />
       <AppContent />
     </AuthProvider>
   )

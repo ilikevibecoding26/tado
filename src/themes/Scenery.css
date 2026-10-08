@@ -1,0 +1,223 @@
+.scenery {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: clamp(110px, 22vh, 210px);
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+:root[data-effects='loud'] .scenery {
+  opacity: 0.95;
+}
+
+.scenery svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Extra elements that only appear on "All out". */
+.sc-loud {
+  display: none;
+}
+
+:root[data-effects='loud'] .sc-loud {
+  display: inline;
+}
+
+/* Everything that animates, animates around its own center. */
+.sc-twinkle,
+.sc-bob,
+.sc-rise,
+.sc-fall,
+.sc-drift,
+.sc-sun {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes sc-twinkle {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes sc-sway {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-140px);
+  }
+}
+
+@keyframes sc-rise {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(-150px);
+    opacity: 0;
+  }
+}
+
+@keyframes sc-fall {
+  from {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  to {
+    transform: translate(46px, 200px) rotate(320deg);
+    opacity: 0;
+  }
+}
+
+@keyframes sc-drift {
+  from {
+    transform: translateX(-30px);
+  }
+  to {
+    transform: translateX(30px);
+  }
+}
+
+@keyframes sc-bob {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes sc-shoot {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  4% {
+    opacity: 1;
+  }
+  22% {
+    transform: translate(520px, 210px);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(520px, 210px);
+    opacity: 0;
+  }
+}
+
+@keyframes sc-swim {
+  from {
+    transform: translateX(-120px);
+  }
+  to {
+    transform: translateX(1320px);
+  }
+}
+
+@keyframes sc-grid {
+  from {
+    transform: translateY(0);
+    opacity: 0.2;
+  }
+  to {
+    transform: translateY(16px);
+    opacity: 1;
+  }
+}
+
+@keyframes sc-sun {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+/* Calm: slow and soft. */
+:root[data-effects='calm'] .sc-twinkle {
+  animation: sc-twinkle 5s ease-in-out infinite;
+}
+:root[data-effects='calm'] .sc-wave {
+  animation: sc-sway 12s ease-in-out infinite alternate;
+}
+:root[data-effects='calm'] .sc-wave-2 {
+  animation-direction: alternate-reverse;
+  animation-duration: 15s;
+}
+:root[data-effects='calm'] .sc-rise {
+  animation: sc-rise 9s linear infinite;
+}
+:root[data-effects='calm'] .sc-fall {
+  animation: sc-fall 14s linear infinite;
+}
+:root[data-effects='calm'] .sc-drift {
+  animation: sc-drift 24s ease-in-out infinite alternate;
+}
+:root[data-effects='calm'] .sc-bob {
+  animation: sc-bob 6s ease-in-out infinite alternate;
+}
+:root[data-effects='calm'] .sc-sun {
+  animation: sc-sun 9s ease-in-out infinite;
+}
+
+/* All out: faster and busier. */
+:root[data-effects='loud'] .sc-twinkle {
+  animation: sc-twinkle 1.8s ease-in-out infinite;
+}
+:root[data-effects='loud'] .sc-wave {
+  animation: sc-sway 5s ease-in-out infinite alternate;
+}
+:root[data-effects='loud'] .sc-wave-2 {
+  animation-direction: alternate-reverse;
+  animation-duration: 6.5s;
+}
+:root[data-effects='loud'] .sc-rise {
+  animation: sc-rise 4.5s linear infinite;
+}
+:root[data-effects='loud'] .sc-fall {
+  animation: sc-fall 7s linear infinite;
+}
+:root[data-effects='loud'] .sc-drift {
+  animation: sc-drift 9s ease-in-out infinite alternate;
+}
+:root[data-effects='loud'] .sc-bob {
+  animation: sc-bob 2.4s ease-in-out infinite alternate;
+}
+:root[data-effects='loud'] .sc-sun {
+  animation: sc-sun 3.5s ease-in-out infinite;
+}
+:root[data-effects='loud'] .sc-shoot {
+  animation: sc-shoot 6s linear infinite;
+}
+:root[data-effects='loud'] .sc-swim {
+  animation: sc-swim 20s linear infinite;
+}
+:root[data-effects='loud'] .sc-grid {
+  animation: sc-grid 1.4s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scenery *,
+  .mascot {
+    animation: none !important;
+  }
+}

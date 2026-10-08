@@ -7,7 +7,7 @@
   font-size: 12px;
   text-align: left;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   padding: 2px 6px;
   cursor: pointer;
   overflow: hidden;
@@ -24,45 +24,39 @@
   flex-shrink: 0;
 }
 
+/* Each event color picks a hue from the active theme; fill and text are derived from it. */
 .event-chip-blue {
-  background: rgba(59, 130, 246, 0.18);
-  color: #1d4ed8;
+  --chip: var(--hue-blue);
 }
 .event-chip-green {
-  background: rgba(34, 197, 94, 0.18);
-  color: #15803d;
+  --chip: var(--hue-green);
 }
 .event-chip-red {
-  background: rgba(239, 68, 68, 0.18);
-  color: #b91c1c;
+  --chip: var(--hue-red);
 }
 .event-chip-yellow {
-  background: rgba(234, 179, 8, 0.2);
-  color: #92400e;
+  --chip: var(--hue-yellow);
 }
 .event-chip-purple {
-  background: var(--accent-bg);
-  color: var(--accent);
+  --chip: var(--hue-purple);
 }
 .event-chip-gray {
-  background: rgba(107, 114, 128, 0.18);
-  color: #374151;
+  --chip: var(--hue-gray);
 }
 
-@media (prefers-color-scheme: dark) {
-  .event-chip-blue {
-    color: #93c5fd;
-  }
-  .event-chip-green {
-    color: #86efac;
-  }
-  .event-chip-red {
-    color: #fca5a5;
-  }
-  .event-chip-yellow {
-    color: #fcd34d;
-  }
-  .event-chip-gray {
-    color: #d1d5db;
+.event-chip-blue,
+.event-chip-green,
+.event-chip-red,
+.event-chip-yellow,
+.event-chip-purple,
+.event-chip-gray {
+  background: color-mix(in srgb, var(--chip) 20%, transparent);
+  color: color-mix(in srgb, var(--chip) 42%, var(--text-h));
+}
+
+/* Month cells are tiny on phones; show just the title there. */
+@media (max-width: 640px) {
+  .event-chip-time {
+    display: none;
   }
 }

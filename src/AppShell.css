@@ -1,0 +1,61 @@
+.app-tabs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.app-tabs-list {
+  display: flex;
+  gap: 4px;
+}
+
+.app-tabs button {
+  font: inherit;
+  font-size: 14px;
+  white-space: nowrap;
+  border: none;
+  background: none;
+  color: var(--text);
+  cursor: pointer;
+  padding: 10px 12px;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.app-tabs button:hover {
+  color: var(--text-h);
+}
+
+.app-tabs-list button.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.app-tabs .app-sign-out {
+  font-size: 13px;
+  padding: 6px 10px;
+}
+
+.app-pane {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.app-pane[hidden] {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .app-tabs {
+    padding: 0 8px;
+  }
+
+  .app-tabs button {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}

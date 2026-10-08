@@ -6,7 +6,7 @@
 
 .month-view-weekdays {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   border-bottom: 1px solid var(--border);
   border-top: 1px solid var(--border);
 }
@@ -20,7 +20,7 @@
 
 .month-view-grid {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   border-left: 1px solid var(--border);
   flex: 1;
 }

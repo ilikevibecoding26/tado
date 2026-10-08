@@ -13,7 +13,7 @@
 .planner-badge-count {
   font-weight: 700;
   background: var(--accent);
-  color: white;
+  color: var(--accent-contrast);
   border-radius: 999px;
   width: 18px;
   height: 18px;

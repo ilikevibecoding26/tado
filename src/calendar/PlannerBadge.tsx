@@ -1,22 +1,25 @@
 import { useEffect, useRef, useState } from 'react'
 import { useEventsContext } from '../features/events/EventsContext'
+import { useAppearance } from '../features/theme/appearance'
 import { getMilestone } from '../features/fun/messages'
 import './PlannerBadge.css'
 
 export function PlannerBadge() {
   const { events } = useEventsContext()
-  const milestone = getMilestone(events.length)
+  const appearance = useAppearance()
+  const milestone = getMilestone(events.length, appearance)
   const [celebrate, setCelebrate] = useState(false)
-  const prevTitleRef = useRef(milestone.title)
+  // Compare levels, not titles, so switching themes doesn't look like a level-up.
+  const prevLevelRef = useRef(milestone.count)
 
   useEffect(() => {
-    if (prevTitleRef.current !== milestone.title) {
-      prevTitleRef.current = milestone.title
+    if (prevLevelRef.current !== milestone.count) {
+      prevLevelRef.current = milestone.count
       setCelebrate(true)
       const timeout = setTimeout(() => setCelebrate(false), 700)
       return () => clearTimeout(timeout)
     }
-  }, [milestone.title])
+  }, [milestone.count])
 
   return (
     <div className={`planner-badge${celebrate ? ' celebrate' : ''}`}>

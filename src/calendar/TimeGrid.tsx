@@ -25,7 +25,7 @@ export function TimeGrid({ days, onSlotClick, onEventClick }: TimeGridProps) {
   const events = getEventsInRange(rangeStart, rangeEnd)
   const hours = getHoursOfDay()
   const today = new Date()
-  const columns = `60px repeat(${days.length}, 1fr)`
+  const columns = `60px repeat(${days.length}, minmax(0, 1fr))`
 
   const allDayEventsFor = (day: Date) =>
     events.filter((event) => event.allDay && new Date(event.start) < endOfDay(day) && new Date(event.end) > startOfDay(day))

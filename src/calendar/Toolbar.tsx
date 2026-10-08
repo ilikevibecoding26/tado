@@ -1,6 +1,5 @@
 import type { CalendarView } from '../features/events/dateUtils'
 import { formatHeaderLabel } from '../features/events/dateUtils'
-import { useAuthContext } from '../features/auth/AuthContext'
 import { PlannerBadge } from './PlannerBadge'
 import './Toolbar.css'
 
@@ -16,8 +15,6 @@ interface ToolbarProps {
 const VIEWS: CalendarView[] = ['month', 'week', 'day']
 
 export function Toolbar({ currentDate, view, onToday, onPrev, onNext, onViewChange }: ToolbarProps) {
-  const { signOut } = useAuthContext()
-
   return (
     <div className="toolbar">
       <div className="toolbar-nav">
@@ -44,9 +41,6 @@ export function Toolbar({ currentDate, view, onToday, onPrev, onNext, onViewChan
             {v[0].toUpperCase() + v.slice(1)}
           </button>
         ))}
-        <button type="button" className="toolbar-sign-out" onClick={signOut}>
-          Sign out
-        </button>
       </div>
     </div>
   )

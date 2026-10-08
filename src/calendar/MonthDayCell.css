@@ -1,4 +1,5 @@
 .month-day-cell {
+  min-width: 0;
   border-right: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
   padding: 4px;
@@ -23,17 +24,17 @@
 
 .month-day-number.today {
   background: var(--accent);
-  color: white;
+  color: var(--accent-contrast);
   animation: today-pulse 2.4s ease-in-out infinite;
 }
 
 @keyframes today-pulse {
   0%,
   100% {
-    box-shadow: 0 0 0 0 rgba(170, 59, 255, 0.5);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 50%, transparent);
   }
   50% {
-    box-shadow: 0 0 0 6px rgba(170, 59, 255, 0);
+    box-shadow: 0 0 0 6px transparent;
   }
 }
 

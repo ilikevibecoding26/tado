@@ -14,7 +14,7 @@
   width: min(360px, 100%);
   padding: 32px;
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   text-align: center;
 }
 
@@ -49,29 +49,30 @@
   font: inherit;
   padding: 8px 10px;
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   background: var(--bg);
   color: var(--text-h);
 }
 
 .sign-in-error {
-  color: #dc2626;
+  color: var(--danger);
   font-size: 13px;
   margin: 0;
 }
 
-.sign-in-info {
-  color: #15803d;
-  font-size: 13px;
+.sign-in-hint {
+  color: var(--text);
+  font-size: 12px;
   margin: 0;
+  text-align: left;
 }
 
 .sign-in-card button.primary {
   font: inherit;
   border: 1px solid var(--accent);
   background: var(--accent);
-  color: white;
-  border-radius: 6px;
+  color: var(--accent-contrast);
+  border-radius: var(--radius-sm);
   padding: 8px 14px;
   cursor: pointer;
   margin-top: 4px;
