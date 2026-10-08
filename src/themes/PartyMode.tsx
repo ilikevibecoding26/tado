@@ -4,6 +4,7 @@ import { THEMES } from '../features/theme/theme'
 import type { ThemeId } from '../features/theme/theme'
 import { burstConfetti } from '../features/fun/confetti'
 import { playPop } from '../features/fun/sound'
+import { isTyping } from '../features/fun/typing'
 import { MASCOTS } from '../calendar/mascots'
 import './PartyMode.css'
 
@@ -14,11 +15,6 @@ import './PartyMode.css'
 const KONAMI = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a']
 const PARTY_MS = 7000
 const BURST_EVERY_MS = 900
-
-function isTyping(target: EventTarget | null): boolean {
-  const el = target as HTMLElement | null
-  return !!el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT' || el.isContentEditable)
-}
 
 export function PartyMode() {
   const { party, effects, goldMascot } = useAppearance()

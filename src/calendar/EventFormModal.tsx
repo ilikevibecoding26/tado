@@ -3,6 +3,7 @@ import type { FormEvent } from 'react'
 import { addDays, addHours, format } from 'date-fns'
 import type { CalendarEvent, EventColor } from '../features/events/types'
 import { useEventsContext } from '../features/events/EventsContext'
+import { triggerMagic } from '../features/theme/appearance'
 import { burstConfetti } from '../features/fun/confetti'
 import { playPop } from '../features/fun/sound'
 import './EventFormModal.css'
@@ -70,6 +71,7 @@ export function EventFormModal({ event, initialDate, onClose }: EventFormModalPr
       updateEvent({ ...payload, id: event.id })
     } else {
       addEvent(payload)
+      triggerMagic(payload.title)
       const rect = dialogRef.current?.getBoundingClientRect()
       const originX = rect ? rect.left + rect.width / 2 : window.innerWidth / 2
       const originY = rect ? rect.top + rect.height / 2 : window.innerHeight / 2

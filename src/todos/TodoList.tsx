@@ -3,9 +3,10 @@ import type { ChangeEvent, FormEvent } from 'react'
 import { format, parseISO } from 'date-fns'
 import type { Todo } from '../features/todos/types'
 import { useTodosContext } from '../features/todos/TodosContext'
-import { useAppearance } from '../features/theme/appearance'
+import { showNotice, startParty, triggerMagic, useAppearance } from '../features/theme/appearance'
 import { getTodoEmptyMessage } from '../features/fun/messages'
 import { burstConfetti } from '../features/fun/confetti'
+import { comboPitch, registerCompletion } from '../features/fun/combo'
 import { playPop } from '../features/fun/sound'
 import { Mascot } from '../calendar/Mascot'
 import './TodoList.css'
@@ -39,6 +40,7 @@ export function TodoList() {
     const trimmed = title.trim()
     if (!trimmed) return
     addTodo(trimmed, dueDate || undefined)
+    triggerMagic(trimmed)
     setTitle('')
     setDueDate('')
   }
@@ -46,8 +48,17 @@ export function TodoList() {
   const handleToggle = (todo: Todo, e: ChangeEvent<HTMLInputElement>) => {
     if (!todo.done) {
       const rect = e.currentTarget.getBoundingClientRect()
-      burstConfetti(rect.left + rect.width / 2, rect.top + rect.height / 2)
-      playPop()
+      const x = rect.left + rect.width / 2
+      const y = rect.top + rect.height / 2
+      // With effects on, finishing todos quickly builds a combo: higher notes, more bursts, and a party at five.
+      const combo = appearance.effects === 'off' ? 1 : registerCompletion()
+      burstConfetti(x, y)
+      for (let i = 1; i < Math.min(combo, 4); i++) {
+        setTimeout(() => burstConfetti(x + (i % 2 ? 24 : -24), y), i * 140)
+      }
+      playPop(undefined, comboPitch(combo))
+      if (combo >= 2) showNotice(`Combo x${combo}!`)
+      if (combo === 5) startParty()
     }
     toggleTodo(todo.id)
   }

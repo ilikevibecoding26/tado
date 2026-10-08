@@ -90,7 +90,7 @@ function playNote(ctx: AudioContext, note: Note, offset: number, volume: number,
 }
 
 /** Pass `themeOverride` to play another theme's sound (used by party mode). */
-export function playPop(themeOverride?: ThemeId): void {
+export function playPop(themeOverride?: ThemeId, pitch = 1): void {
   const { theme: currentTheme, effects } = getAppearance()
   const theme = themeOverride ?? currentTheme
   const ctx = getAudioContext()
@@ -100,10 +100,10 @@ export function playPop(themeOverride?: ThemeId): void {
   }
   const notes = SOUNDS[theme]
   if (effects === 'calm') {
-    notes.forEach((note) => playNote(ctx, note, 0, 1, 1))
+    notes.forEach((note) => playNote(ctx, note, 0, 1, pitch))
     return
   }
   // All out: louder, then an echo a fifth higher.
-  notes.forEach((note) => playNote(ctx, note, 0, 1.8, 1))
-  notes.forEach((note) => playNote(ctx, note, 0.2, 0.9, 1.5))
+  notes.forEach((note) => playNote(ctx, note, 0, 1.8, pitch))
+  notes.forEach((note) => playNote(ctx, note, 0.2, 0.9, 1.5 * pitch))
 }

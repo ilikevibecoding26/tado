@@ -1,12 +1,31 @@
+import { useRef } from 'react'
 import type { MouseEvent } from 'react'
-import { setEffects, setMascot, setTheme, useAppearance } from '../features/theme/appearance'
+import { peekTheme, setEffects, setMascot, setTheme, useAppearance } from '../features/theme/appearance'
+import type { ThemeId } from '../features/theme/theme'
 import { EFFECT_LEVELS, MASCOT_NAMES, SECRET_THEMES, THEMES } from '../features/theme/theme'
 import { burstConfetti } from '../features/fun/confetti'
 import { playPop } from '../features/fun/sound'
 import './SettingsPage.css'
 
 export function SettingsPage() {
-  const { theme, effects, mascot, found, goldTheme } = useAppearance()
+  const { theme, effects, mascot, found, goldTheme, returnTheme } = useAppearance()
+  const selectedTheme = returnTheme ?? theme
+  const holdTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const held = useRef(false)
+
+  // A secret: press and hold a theme card to peek at that theme without choosing it.
+  const startHold = (id: ThemeId) => {
+    held.current = false
+    if (holdTimer.current) clearTimeout(holdTimer.current)
+    holdTimer.current = setTimeout(() => {
+      held.current = true
+      peekTheme(id)
+    }, 700)
+  }
+  const endHold = () => {
+    if (holdTimer.current) clearTimeout(holdTimer.current)
+    holdTimer.current = null
+  }
   const visibleThemes = THEMES.filter((t) => goldTheme || !SECRET_THEMES.includes(t.id))
 
   const tryCelebration = (e: MouseEvent<HTMLButtonElement>) => {
@@ -23,12 +42,26 @@ export function SettingsPage() {
           <p className="settings-hint">Pick a look for TaDo. Your choice is saved on this device.</p>
           <div className="theme-grid">
             {visibleThemes.map((t) => (
-              <label key={t.id} className="theme-option">
+              <label
+                key={t.id}
+                className="theme-option"
+                onPointerDown={() => startHold(t.id)}
+                onPointerUp={endHold}
+                onPointerLeave={endHold}
+                onPointerCancel={endHold}
+                onClick={(e) => {
+                  // The click that ends a long press shouldn't also pick the theme.
+                  if (held.current) {
+                    e.preventDefault()
+                    held.current = false
+                  }
+                }}
+              >
                 <input
                   type="radio"
                   name="theme"
                   value={t.id}
-                  checked={theme === t.id}
+                  checked={selectedTheme === t.id}
                   onChange={() => setTheme(t.id)}
                 />
                 <span className="theme-preview" data-theme={t.id} aria-hidden="true">

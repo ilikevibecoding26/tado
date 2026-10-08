@@ -1,4 +1,7 @@
 import type { HolidayId } from '../features/fun/holidays'
+
+// Holiday costumes come from the date; the birthday hat comes from a magic word in a title.
+export type CostumeId = HolidayId | 'birthday'
 import type { ThemeId } from '../features/theme/theme'
 
 // Where each mascot's head is, in the 100x100 mascot box, so a hat can sit on it.
@@ -15,8 +18,18 @@ const HEAD: Record<ThemeId, { x: number; y: number; scale: number }> = {
 }
 
 // Each costume is drawn with its base at (0, 0), growing upward.
-function Hat({ holiday }: { holiday: HolidayId }) {
+function Hat({ holiday }: { holiday: CostumeId }) {
   switch (holiday) {
+    case 'birthday':
+      return (
+        <>
+          <path d="M-16 0L0 -42L16 0Z" fill="#ff6b9a" />
+          <circle cx="-5" cy="-12" r="2.5" fill="#fff" />
+          <circle cx="5" cy="-22" r="2.5" fill="#fff" />
+          <circle cx="-1" cy="-31" r="2" fill="#fff" />
+          <circle cx="0" cy="-44" r="5" fill="#ffd24a" />
+        </>
+      )
     case 'halloween':
       return (
         <>
@@ -65,7 +78,7 @@ function Hat({ holiday }: { holiday: HolidayId }) {
   }
 }
 
-export function Costume({ holiday, mascot }: { holiday: HolidayId; mascot: ThemeId }) {
+export function Costume({ holiday, mascot }: { holiday: CostumeId; mascot: ThemeId }) {
   const { x, y, scale } = HEAD[mascot]
   return (
     <g transform={`translate(${x} ${y}) scale(${scale})`}>

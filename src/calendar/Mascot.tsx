@@ -5,6 +5,7 @@ import { registerMascotTap, useAppearance } from '../features/theme/appearance'
 import { burstConfetti } from '../features/fun/confetti'
 import { playPop } from '../features/fun/sound'
 import { getHoliday } from '../features/fun/holidays'
+import { isLateNight } from '../features/fun/timeOfDay'
 import { pickMascotLine } from '../features/fun/mascotLines'
 import { CalendarGuy, MASCOTS } from './mascots'
 import { Costume } from './costumes'
@@ -46,10 +47,14 @@ function placeBubble(text: string, rect: DOMRect): Bubble {
 //   press and hold            -> it says something in its own voice
 //   on certain holidays       -> it wears a costume
 export function Mascot({ size = 56 }: { size?: number }) {
-  const { theme, effects, mascot } = useAppearance()
+  const { theme, effects, mascot, magic } = useAppearance()
   const character = mascot ?? theme
   const Character = effects === 'off' ? CalendarGuy : MASCOTS[character]
-  const holiday = effects === 'off' ? null : getHoliday()
+  // A magic word in a new title can put a birthday hat on the mascot, make it jittery, or make it sleepy.
+  const magicWord = effects === 'off' ? null : (magic?.word ?? null)
+  // Between midnight and 5am the mascot droops and yawns.
+  const sleepy = effects !== 'off' && (isLateNight() || magicWord === 'sleep')
+  const costume = magicWord === 'birthday' ? 'birthday' : effects === 'off' ? null : getHoliday()
 
   const [bubble, setBubble] = useState<Bubble | null>(null)
   const svgRef = useRef<SVGSVGElement>(null)
@@ -100,7 +105,7 @@ export function Mascot({ size = 56 }: { size?: number }) {
     <span className="mascot-wrap">
       <svg
         ref={svgRef}
-        className="mascot"
+        className={`mascot${magicWord === 'coffee' ? ' jitter' : ''}${sleepy ? ' drowsy' : ''}`}
         viewBox="0 0 100 100"
         width={size}
         height={size}
@@ -117,8 +122,9 @@ export function Mascot({ size = 56 }: { size?: number }) {
         }}
       >
         <Character />
-        {holiday && <Costume holiday={holiday} mascot={character} />}
+        {costume && <Costume holiday={costume} mascot={character} />}
       </svg>
+      {sleepy && <span className="mascot-zzz">Zzz</span>}
       {bubble &&
         createPortal(
           <span className={`mascot-bubble ${bubble.placement}`} style={bubble.style} role="status">

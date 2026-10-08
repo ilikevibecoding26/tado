@@ -1,7 +1,7 @@
 import { getAppearance } from '../theme/appearance'
 import type { EffectsLevel, ThemeId } from '../theme/theme'
 
-type Shape = 'rect' | 'dot' | 'ring' | 'star' | 'pixel' | 'leaf' | 'sprinkle' | 'heart' | 'ember'
+type Shape = 'rect' | 'dot' | 'ring' | 'star' | 'pixel' | 'leaf' | 'sprinkle' | 'heart' | 'ember' | 'pizza'
 
 interface Style {
   shapes: Shape[]
@@ -163,6 +163,23 @@ function drawShape(ctx: CanvasRenderingContext2D, p: Particle): void {
       ctx.bezierCurveTo(s * 0.4, -s * 1.1, s * 1.1, -s * 0.4, 0, s * 0.35)
       ctx.fill()
       break
+    case 'pizza':
+      ctx.fillStyle = '#f2c14e'
+      ctx.beginPath()
+      ctx.moveTo(0, -s)
+      ctx.lineTo(-s * 0.8, s * 0.7)
+      ctx.lineTo(s * 0.8, s * 0.7)
+      ctx.closePath()
+      ctx.fill()
+      ctx.fillStyle = '#c9822b'
+      ctx.fillRect(-s * 0.8, s * 0.55, s * 1.6, s * 0.3)
+      ctx.fillStyle = '#d62839'
+      for (const [x, y, r] of [[0, -s * 0.15, 0.2], [-s * 0.3, s * 0.3, 0.16], [s * 0.3, s * 0.25, 0.16]]) {
+        ctx.beginPath()
+        ctx.arc(x, y, s * r, 0, Math.PI * 2)
+        ctx.fill()
+      }
+      break
     case 'ember':
       ctx.shadowColor = p.color
       ctx.shadowBlur = 10
@@ -174,6 +191,69 @@ function drawShape(ctx: CanvasRenderingContext2D, p: Particle): void {
 }
 
 /** Pass `themeOverride` to burst in another theme's style and colors (used by party mode). */
+function createOverlay(): { canvas: HTMLCanvasElement; ctx: CanvasRenderingContext2D } | null {
+  const canvas = document.createElement('canvas')
+  canvas.style.position = 'fixed'
+  canvas.style.inset = '0'
+  canvas.style.width = '100vw'
+  canvas.style.height = '100vh'
+  canvas.style.pointerEvents = 'none'
+  canvas.style.zIndex = '9999'
+  canvas.width = window.innerWidth
+  canvas.height = window.innerHeight
+  document.body.appendChild(canvas)
+  const ctx = canvas.getContext('2d')
+  if (!ctx) {
+    canvas.remove()
+    return null
+  }
+  return { canvas, ctx }
+}
+
+/** Shapes falling down the whole screen, like a rainstorm of pizza slices. */
+export function rainShapes(shape: Shape, count = 36, duration = 3200): void {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+  const overlay = createOverlay()
+  if (!overlay) return
+  const { canvas, ctx } = overlay
+  const particles: Particle[] = Array.from({ length: count }, () => ({
+    x: Math.random() * canvas.width,
+    y: -30 - Math.random() * canvas.height * 0.5,
+    vx: (Math.random() - 0.5) * 1.5,
+    vy: 4 + Math.random() * 3,
+    rotation: Math.random() * 360,
+    vr: (Math.random() - 0.5) * 8,
+    size: 12 + Math.random() * 8,
+    color: '#f2c14e',
+    shape,
+    phase: Math.random() * Math.PI * 2,
+  }))
+  const start = performance.now()
+
+  function frame(now: number) {
+    const elapsed = now - start
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    const fade = Math.min(1, (duration - elapsed) / (duration * 0.25))
+    for (const p of particles) {
+      p.x += p.vx
+      p.y += p.vy
+      p.rotation += p.vr
+      ctx.save()
+      ctx.globalAlpha = Math.max(0, fade)
+      ctx.translate(p.x, p.y)
+      ctx.rotate((p.rotation * Math.PI) / 180)
+      drawShape(ctx, p)
+      ctx.restore()
+    }
+    if (elapsed < duration) {
+      requestAnimationFrame(frame)
+    } else {
+      canvas.remove()
+    }
+  }
+  requestAnimationFrame(frame)
+}
+
 export function burstConfetti(originX: number, originY: number, themeOverride?: ThemeId): void {
   const { theme: currentTheme, effects } = getAppearance()
   const theme = themeOverride ?? currentTheme

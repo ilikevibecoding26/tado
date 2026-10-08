@@ -6,6 +6,9 @@ import { AppShell } from './AppShell'
 import { Scenery } from './themes/Scenery'
 import { FoundToast } from './themes/FoundToast'
 import { PartyMode } from './themes/PartyMode'
+import { MagicEffects } from './themes/MagicEffects'
+import { SecretKeys } from './themes/SecretKeys'
+import { DailyHello } from './themes/DailyHello'
 import './App.css'
 
 function AppContent() {
@@ -35,6 +38,9 @@ function App() {
       <AppContent />
       <FoundToast />
       <PartyMode />
+      <MagicEffects />
+      <SecretKeys />
+      <DailyHello />
     </AuthProvider>
   )
 }

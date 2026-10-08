@@ -213,3 +213,70 @@
     animation: none;
   }
 }
+
+/* Magic-word reactions and the late-night droop. */
+.mascot-wrap .mascot.jitter,
+:root[data-effects='calm'] .mascot.jitter,
+:root[data-effects='loud'] .mascot.jitter {
+  animation: mascot-jitter 0.12s linear infinite;
+}
+
+:root[data-effects='calm'] .mascot.drowsy,
+:root[data-effects='loud'] .mascot.drowsy {
+  animation: mascot-drowsy 4s ease-in-out infinite;
+}
+
+@keyframes mascot-jitter {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-1.5px, 1px) rotate(-2deg);
+  }
+  75% {
+    transform: translate(1.5px, -1px) rotate(2deg);
+  }
+}
+
+@keyframes mascot-drowsy {
+  0%,
+  100% {
+    transform: translateY(2px) rotate(-5deg) scale(1, 0.96);
+  }
+  50% {
+    transform: translateY(5px) rotate(5deg) scale(1, 0.92);
+  }
+}
+
+.mascot-zzz {
+  position: absolute;
+  top: -6px;
+  right: -14px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: 1px;
+  pointer-events: none;
+  animation: zzz-float 2.4s ease-in-out infinite;
+}
+
+@keyframes zzz-float {
+  0% {
+    opacity: 0;
+    transform: translate(0, 6px);
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(6px, -8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mascot-zzz {
+    animation: none;
+  }
+}

@@ -59,3 +59,21 @@
     padding-right: 8px;
   }
 }
+
+.app-tabs-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Room above the mascot so a hat or a bounce isn't cut off by the top of the screen. */
+.app-tabs-mascot {
+  display: flex;
+  padding-top: 12px;
+  align-self: flex-end;
+}
+
+/* Keep the bar the same height with or without the mascot, so switching tabs doesn't make the page jump. */
+:root[data-effects='loud'] .app-tabs {
+  min-height: 47px;
+}
