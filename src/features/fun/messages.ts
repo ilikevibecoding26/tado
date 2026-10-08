@@ -131,6 +131,24 @@ const VOICES: Record<ThemeId, Voice> = {
       'Ancient grove',
     ],
   },
+  gold: {
+    empty: [
+      'Not a coin on the table.',
+      'A vault with room to spare.',
+      'Quiet luxury: an empty day.',
+      'Nothing scheduled. Nothing wasted.',
+    ],
+    todoEmpty: 'Your ledger is clear.',
+    milestones: [
+      'Pocket change',
+      'First coin!',
+      'Saving up',
+      'Rich in plans',
+      'Treasure keeper',
+      'The gold standard',
+      'Midas',
+    ],
+  },
   sunset: {
     empty: [
       'The sky is wide open.',

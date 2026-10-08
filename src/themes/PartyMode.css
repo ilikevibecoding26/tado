@@ -1,0 +1,42 @@
+.party {
+  position: fixed;
+  inset: 0;
+  z-index: 9500;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.party-runner {
+  position: absolute;
+  left: 0;
+  animation: party-run 5.5s linear both;
+}
+
+.party-hop {
+  display: block;
+  animation: party-hop 0.45s ease-in-out infinite alternate;
+}
+
+@keyframes party-run {
+  from {
+    transform: translateX(-100px);
+  }
+  to {
+    transform: translateX(calc(100vw + 100px));
+  }
+}
+
+@keyframes party-hop {
+  from {
+    transform: translateY(0) rotate(-7deg);
+  }
+  to {
+    transform: translateY(-20px) rotate(7deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .party {
+    display: none;
+  }
+}

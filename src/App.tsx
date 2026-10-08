@@ -5,6 +5,7 @@ import { TodosProvider } from './features/todos/TodosContext'
 import { AppShell } from './AppShell'
 import { Scenery } from './themes/Scenery'
 import { FoundToast } from './themes/FoundToast'
+import { PartyMode } from './themes/PartyMode'
 import './App.css'
 
 function AppContent() {
@@ -33,6 +34,7 @@ function App() {
       <Scenery />
       <AppContent />
       <FoundToast />
+      <PartyMode />
     </AuthProvider>
   )
 }

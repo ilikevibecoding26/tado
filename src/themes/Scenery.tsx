@@ -1,5 +1,7 @@
 import type { CSSProperties, ReactElement } from 'react'
 import { useAppearance } from '../features/theme/appearance'
+import { getHoliday } from '../features/fun/holidays'
+import type { HolidayId } from '../features/fun/holidays'
 import type { ThemeId } from '../features/theme/theme'
 import './Scenery.css'
 
@@ -269,7 +271,120 @@ function SunsetScenery() {
   )
 }
 
+function GoldScenery() {
+  return (
+    <>
+      <path d="M0 160C180 120 360 170 560 150C760 130 940 178 1200 138V200H0Z" fill="var(--accent)" fillOpacity=".14" />
+      <path d="M0 184C220 156 420 190 640 172C860 154 1020 188 1200 170V200H0Z" fill="var(--accent)" fillOpacity=".24" />
+      {[
+        [380, 70, 12, 0],
+        [560, 40, 9, 1.4],
+        [720, 90, 11, 2.3],
+        [880, 52, 8, 0.8],
+        [200, 100, 8, 1.9],
+        [1040, 80, 10, 0.5],
+      ].map(([x, y, size, d]) => (
+        <path key={x} className="sc-twinkle" d={sparkle(x, y, size)} fill="var(--accent)" fillOpacity=".7" style={delay(d)} />
+      ))}
+      <g className="sc-loud">
+        {[
+          [460, 110, 7, 0.3],
+          [640, 70, 8, 1.1],
+          [800, 120, 7, 2.0],
+          [1120, 56, 7, 2.6],
+        ].map(([x, y, size, d]) => (
+          <path key={x} className="sc-twinkle" d={sparkle(x, y, size)} fill="var(--hue-yellow)" fillOpacity=".8" style={delay(d)} />
+        ))}
+      </g>
+    </>
+  )
+}
+
+const HEART = 'M0 6C-10 -4 -5 -14 0 -8C5 -14 10 -4 0 6Z'
+
+// Seasonal extras layered over the theme's scenery on holidays (see features/fun/holidays.ts).
+// Animated parts sit inside a translated <g> so the CSS animation doesn't replace the position.
+function HolidayScenery({ holiday }: { holiday: HolidayId }) {
+  switch (holiday) {
+    case 'halloween':
+      return (
+        <>
+          {[
+            [470, 52, 0],
+            [560, 78, 1.6],
+            [650, 46, 0.8],
+          ].map(([x, y, d]) => (
+            <g key={x} transform={`translate(${x} ${y})`}>
+              <path className="sc-drift" d="M0 0L-16 -8L-12 2L-8 -1L-4 4L0 0L4 4L8 -1L12 2L16 -8Z" fill="var(--text-h)" fillOpacity=".45" style={delay(d)} />
+            </g>
+          ))}
+          {[430, 770].map((x) => (
+            <g key={x} transform={`translate(${x} 186)`}>
+              <ellipse rx="17" ry="13" fill="#ff8a3d" fillOpacity=".8" />
+              <path d="M-3 -13Q0 -21 5 -19" stroke="#4a7c2a" strokeWidth="3" fill="none" strokeLinecap="round" />
+            </g>
+          ))}
+        </>
+      )
+    case 'christmas':
+      return (
+        <>
+          {[400, 455, 510, 565, 620, 675, 730, 785].map((x, i) => (
+            <circle key={x} className="sc-fall" cx={x} cy="0" r="3" fill="#fff" stroke="var(--hue-blue)" strokeOpacity=".5" style={delay(i * 0.9)} />
+          ))}
+          {[
+            [470, 1],
+            [745, 0.75],
+          ].map(([x, scale]) => (
+            <g key={x} transform={`translate(${x} 200) scale(${scale})`}>
+              <rect x="-3" y="-12" width="6" height="12" fill="#8b5a2b" fillOpacity=".6" />
+              <path d="M0 -66L18 -34H9L24 -12H-24L-9 -34H-18Z" fill="#2f9e44" fillOpacity=".6" />
+              <circle cx="0" cy="-68" r="4" fill="#ffd24a" />
+            </g>
+          ))}
+        </>
+      )
+    case 'newyear':
+      return (
+        <>
+          {[
+            [420, 60, 9, '#ff6b81', 0],
+            [500, 100, 8, '#ffd24a', 0.9],
+            [580, 44, 10, '#5ec8ff', 1.8],
+            [660, 92, 8, '#7c5cff', 0.4],
+            [740, 56, 9, '#ff6b81', 1.3],
+            [800, 104, 7, '#ffd24a', 2.2],
+          ].map(([x, y, size, color, d]) => (
+            <path key={x as number} className="sc-twinkle" d={sparkle(x as number, y as number, size as number)} fill={color as string} fillOpacity=".85" style={delay(d as number)} />
+          ))}
+        </>
+      )
+    case 'valentines':
+      return (
+        <>
+          {[420, 500, 580, 660, 740, 800].map((x, i) => (
+            <g key={x} transform={`translate(${x} 190)`}>
+              <path className="sc-rise" d={HEART} fill="#ff4d6d" fillOpacity=".75" style={delay(i * 1.1)} />
+            </g>
+          ))}
+        </>
+      )
+    case 'stpatrick':
+      return (
+        <>
+          {['#ff6b6b', '#ffb347', '#ffe14d', '#5fd068', '#5ec8ff', '#a98bff'].map((color, i) => (
+            <path key={color} d={`M${450 + i * 8} 200A${150 - i * 8} ${150 - i * 8} 0 0 1 ${750 - i * 8} 200`} fill="none" stroke={color} strokeOpacity=".4" strokeWidth="8" />
+          ))}
+          {[580, 600, 620].map((x) => (
+            <circle key={x} cx={x} cy="192" r="6" fill="#ffd24a" fillOpacity=".9" />
+          ))}
+        </>
+      )
+  }
+}
+
 const SCENES: Partial<Record<ThemeId, () => ReactElement>> = {
+  gold: GoldScenery,
   tado: TadoScenery,
   candy: CandyScenery,
   space: SpaceScenery,
@@ -282,12 +397,14 @@ const SCENES: Partial<Record<ThemeId, () => ReactElement>> = {
 export function Scenery() {
   const { theme, effects } = useAppearance()
   const Scene = SCENES[theme]
+  const holiday = getHoliday()
   // Minimal has no scenery on purpose.
-  if (effects === 'off' || !Scene) return null
+  if (effects === 'off' || theme === 'minimal') return null
   return (
     <div className="scenery" aria-hidden="true">
       <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMax slice">
-        <Scene />
+        {Scene && <Scene />}
+        {holiday && <HolidayScenery holiday={holiday} />}
       </svg>
     </div>
   )

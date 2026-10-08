@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useAppearance } from '../features/theme/appearance'
-import { MASCOT_NAMES } from '../features/theme/theme'
 import './FoundToast.css'
 
-// A small note the first time a secret mascot is discovered.
+// A small note when something secret happens (a mascot is found, a theme unlocks).
 export function FoundToast() {
   const { notice } = useAppearance()
   const [visibleNonce, setVisibleNonce] = useState<number | null>(null)
@@ -19,7 +18,7 @@ export function FoundToast() {
 
   return (
     <div className="found-toast" role="status">
-      You found the {MASCOT_NAMES[notice.id].toLowerCase()}!
+      {notice.text}
     </div>
   )
 }

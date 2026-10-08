@@ -377,3 +377,36 @@
 :root[data-theme='minimal'] .time-grid-day-header.today {
   animation: none;
 }
+
+/* ---------- Gold (secret; always dark) ---------- */
+[data-theme='gold'] {
+  color-scheme: dark;
+
+  --text: #c9b98c;
+  --text-h: #fff6dc;
+  --bg: #0c0a06;
+  --bg-image: radial-gradient(ellipse at 50% -20%, rgba(242, 193, 78, 0.18), transparent 60%);
+  --border: #3b3013;
+  --code-bg: #16120a;
+  --accent: #f2c14e;
+  --accent-bg: rgba(242, 193, 78, 0.14);
+  --accent-border: rgba(242, 193, 78, 0.55);
+  --accent-contrast: #1a1405;
+  --danger: #ff8a7a;
+
+  --hue-blue: #6fa8ff;
+  --hue-green: #7ed39a;
+  --hue-red: #ff7a6b;
+  --hue-yellow: #f2c14e;
+  --hue-purple: #c9a7ff;
+  --hue-gray: #a89f86;
+  --confetti: #f2c14e, #fff1b8, #e8a317, #ffffff, #ffd978, #c58b0a;
+
+  --radius-xs: 5px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: ui-serif, Georgia, 'Times New Roman', serif;
+}

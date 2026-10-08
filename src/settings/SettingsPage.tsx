@@ -1,12 +1,13 @@
 import type { MouseEvent } from 'react'
 import { setEffects, setMascot, setTheme, useAppearance } from '../features/theme/appearance'
-import { EFFECT_LEVELS, MASCOT_NAMES, THEMES } from '../features/theme/theme'
+import { EFFECT_LEVELS, MASCOT_NAMES, SECRET_THEMES, THEMES } from '../features/theme/theme'
 import { burstConfetti } from '../features/fun/confetti'
 import { playPop } from '../features/fun/sound'
 import './SettingsPage.css'
 
 export function SettingsPage() {
-  const { theme, effects, mascot, found } = useAppearance()
+  const { theme, effects, mascot, found, goldTheme } = useAppearance()
+  const visibleThemes = THEMES.filter((t) => goldTheme || !SECRET_THEMES.includes(t.id))
 
   const tryCelebration = (e: MouseEvent<HTMLButtonElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
@@ -21,7 +22,7 @@ export function SettingsPage() {
           <legend>Theme</legend>
           <p className="settings-hint">Pick a look for TaDo. Your choice is saved on this device.</p>
           <div className="theme-grid">
-            {THEMES.map((t) => (
+            {visibleThemes.map((t) => (
               <label key={t.id} className="theme-option">
                 <input
                   type="radio"

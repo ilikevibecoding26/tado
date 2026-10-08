@@ -57,6 +57,12 @@ const SOUNDS: Record<ThemeId, Note[]> = {
     { at: 0, freq: 520, glideTo: 380, duration: 0.09, wave: 'triangle', gain: 0.14 },
     { at: 0.11, freq: 660, glideTo: 480, duration: 0.09, wave: 'triangle', gain: 0.1 },
   ],
+  // A bright three-note chime, like a coin landing.
+  gold: [
+    { at: 0, freq: 1568, duration: 0.5, wave: 'sine', gain: 0.1 },
+    { at: 0.07, freq: 2093, duration: 0.6, wave: 'sine', gain: 0.08 },
+    { at: 0.14, freq: 2637, duration: 0.7, wave: 'sine', gain: 0.06 },
+  ],
   // A warm rising arpeggio.
   sunset: [
     { at: 0, freq: 523, duration: 0.45, wave: 'triangle', gain: 0.1 },
@@ -83,8 +89,10 @@ function playNote(ctx: AudioContext, note: Note, offset: number, volume: number,
   oscillator.stop(start + note.duration)
 }
 
-export function playPop(): void {
-  const { theme, effects } = getAppearance()
+/** Pass `themeOverride` to play another theme's sound (used by party mode). */
+export function playPop(themeOverride?: ThemeId): void {
+  const { theme: currentTheme, effects } = getAppearance()
+  const theme = themeOverride ?? currentTheme
   const ctx = getAudioContext()
   if (effects === 'off') {
     POP.forEach((note) => playNote(ctx, note, 0, 1, 1))

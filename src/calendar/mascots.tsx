@@ -142,7 +142,28 @@ function Sun() {
   )
 }
 
+// The golden mascot uses fixed colors so it looks the same in every theme.
+function GoldenGuy() {
+  return (
+    <>
+      <rect x="4" y="12" width="92" height="84" rx="22" fill="#fff3c9" />
+      <path d="M4 44V34a22 22 0 0 1 22-22h48a22 22 0 0 1 22 22v10Z" fill="#f2c14e" />
+      <path d="M30 14 36 0l7 9 7-13 7 13 7-9 6 14Z" fill="#e8a317" stroke="#c58b0a" strokeWidth="1.5" strokeLinejoin="round" />
+      <circle cx="43" cy="5" r="2.2" fill="#ff6b81" />
+      <circle cx="57" cy="5" r="2.2" fill="#5ec8ff" />
+      <rect x="36" y="22" width="8" height="14" rx="4" fill="#fff" />
+      <rect x="56" y="22" width="8" height="14" rx="4" fill="#fff" />
+      <circle cx="38" cy="64" r="5.5" fill="#3b3013" />
+      <circle cx="62" cy="64" r="5.5" fill="#3b3013" />
+      <path d="M34 77Q50 92 66 77" stroke="#3b3013" strokeWidth="5" fill="none" strokeLinecap="round" />
+      <path d="M84 52l2 5 5 2-5 2-2 5-2-5-5-2 5-2Z" fill="#f2c14e" />
+      <path d="M14 56l1.5 3.5 3.5 1.5-3.5 1.5L14 66l-1.5-3.5L9 61l3.5-1.5Z" fill="#f2c14e" />
+    </>
+  )
+}
+
 export const MASCOTS: Record<ThemeId, () => ReactElement> = {
+  gold: GoldenGuy,
   tado: CalendarGuy,
   minimal: DotFace,
   candy: Cupcake,

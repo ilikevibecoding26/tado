@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useEventsContext } from '../features/events/EventsContext'
-import { useAppearance } from '../features/theme/appearance'
+import { unlockGoldTheme, useAppearance } from '../features/theme/appearance'
+import { GOLD_UNLOCK_EVENTS } from '../features/theme/theme'
 import { getMilestone } from '../features/fun/messages'
 import './PlannerBadge.css'
 
@@ -20,6 +21,11 @@ export function PlannerBadge() {
       return () => clearTimeout(timeout)
     }
   }, [milestone.count])
+
+  // Reaching the top level is a secret reward: the Gold theme.
+  useEffect(() => {
+    if (events.length >= GOLD_UNLOCK_EVENTS) unlockGoldTheme()
+  }, [events.length])
 
   return (
     <div className={`planner-badge${celebrate ? ' celebrate' : ''}`}>

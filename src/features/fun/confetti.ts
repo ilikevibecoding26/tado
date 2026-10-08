@@ -26,6 +26,7 @@ const STYLES: Record<ThemeId, Style> = {
   ocean: { shapes: ['ring'], gravity: -0.05, drag: 0.97, launch: 0.5, sway: 0.7, floats: true },
   forest: { shapes: ['leaf'], gravity: 0.06, drag: 0.96, launch: 0.8, sway: 1.1, floats: false },
   sunset: { shapes: ['ember', 'dot'], gravity: -0.04, drag: 0.97, launch: 0.6, sway: 0.4, floats: true },
+  gold: { shapes: ['star', 'rect', 'dot'], gravity: 0.3, drag: 1, launch: 1, sway: 0, floats: false },
 }
 
 interface Level {
@@ -59,8 +60,18 @@ interface Particle {
 }
 
 // The active theme lists its confetti colors in the --confetti variable.
-function getColors(): string[] {
-  const raw = getComputedStyle(document.documentElement).getPropertyValue('--confetti')
+function getColors(theme?: ThemeId): string[] {
+  let target: HTMLElement = document.documentElement
+  let probe: HTMLElement | null = null
+  if (theme) {
+    // Read another theme's palette without switching to it.
+    probe = document.createElement('div')
+    probe.dataset.theme = theme
+    document.body.appendChild(probe)
+    target = probe
+  }
+  const raw = getComputedStyle(target).getPropertyValue('--confetti')
+  probe?.remove()
   const colors = raw
     .split(',')
     .map((color) => color.trim())
@@ -162,14 +173,16 @@ function drawShape(ctx: CanvasRenderingContext2D, p: Particle): void {
   }
 }
 
-export function burstConfetti(originX: number, originY: number): void {
-  const { theme, effects } = getAppearance()
+/** Pass `themeOverride` to burst in another theme's style and colors (used by party mode). */
+export function burstConfetti(originX: number, originY: number, themeOverride?: ThemeId): void {
+  const { theme: currentTheme, effects } = getAppearance()
+  const theme = themeOverride ?? currentTheme
   // Themed effects respect the device's reduced-motion setting; the plain confetti never did.
   if (effects !== 'off' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
   const style = STYLES[effects === 'off' ? 'tado' : theme]
   const level = LEVELS[effects]
-  const colors = getColors()
+  const colors = getColors(effects === 'off' ? undefined : themeOverride)
 
   const canvas = document.createElement('canvas')
   canvas.style.position = 'fixed'

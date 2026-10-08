@@ -7,9 +7,16 @@ export const THEMES = [
   { id: 'ocean', name: 'Ocean', description: 'Cool blues and teals' },
   { id: 'forest', name: 'Forest', description: 'Calm greens' },
   { id: 'sunset', name: 'Sunset', description: 'Warm orange and rose' },
+  { id: 'gold', name: 'Gold', description: 'A reward for the busiest planners' },
 ] as const
 
 export type ThemeId = (typeof THEMES)[number]['id']
+
+/** Themes that stay hidden in Settings until they're unlocked. */
+export const SECRET_THEMES: readonly ThemeId[] = ['gold']
+
+/** Events needed to unlock the secret Gold theme (the top planner level). */
+export const GOLD_UNLOCK_EVENTS = 100
 
 export const DEFAULT_THEME: ThemeId = 'tado'
 
@@ -96,10 +103,10 @@ export const MASCOT_NAMES: Record<ThemeId, string> = {
   ocean: 'Fish',
   forest: 'Fox',
   sunset: 'Sun',
+  gold: 'Golden TaDo',
 }
 
 const MASCOT_KEY = 'tado-mascot'
-const FOUND_KEY = 'tado-found-mascots'
 
 /** A guest mascot chosen (or discovered) instead of the theme's own, or null to follow the theme. */
 export function getStoredMascot(): ThemeId | null {
@@ -119,18 +126,47 @@ export function saveMascot(id: ThemeId | null): void {
   }
 }
 
-export function getStoredFound(): ThemeId[] {
+export interface Secrets {
+  /** Guest mascots discovered by tapping (these appear in the hidden picker). */
+  found: ThemeId[]
+  /** Mascots you've seen as a theme's own, which count toward collecting them all. */
+  met: ThemeId[]
+  /** The golden mascot, unlocked by meeting all the others. */
+  goldMascot: boolean
+  /** The Gold theme, unlocked at the top planner level. */
+  goldTheme: boolean
+}
+
+const SECRETS_KEY = 'tado-secrets'
+const LEGACY_FOUND_KEY = 'tado-found-mascots'
+
+function themeIds(value: unknown): ThemeId[] {
+  return Array.isArray(value) ? value.filter(isThemeId) : []
+}
+
+export function getStoredSecrets(): Secrets {
+  const empty: Secrets = { found: [], met: [], goldMascot: false, goldTheme: false }
   try {
-    const parsed: unknown = JSON.parse(localStorage.getItem(FOUND_KEY) ?? '[]')
-    return Array.isArray(parsed) ? parsed.filter(isThemeId) : []
+    const raw = localStorage.getItem(SECRETS_KEY)
+    if (raw) {
+      const parsed = JSON.parse(raw) as Partial<Secrets>
+      return {
+        found: themeIds(parsed.found),
+        met: themeIds(parsed.met),
+        goldMascot: parsed.goldMascot === true,
+        goldTheme: parsed.goldTheme === true,
+      }
+    }
+    // Earlier versions saved only the list of found mascots.
+    return { ...empty, found: themeIds(JSON.parse(localStorage.getItem(LEGACY_FOUND_KEY) ?? '[]')) }
   } catch {
-    return []
+    return empty
   }
 }
 
-export function saveFound(found: ThemeId[]): void {
+export function saveSecrets(secrets: Secrets): void {
   try {
-    localStorage.setItem(FOUND_KEY, JSON.stringify(found))
+    localStorage.setItem(SECRETS_KEY, JSON.stringify(secrets))
   } catch {
     // Same as above: fine to lose this in private mode.
   }
