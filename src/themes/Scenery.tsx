@@ -213,7 +213,9 @@ function OceanScenery() {
       ))}
       <g className="sc-loud">
         <g className="sc-swim">
-          <path d="M0 150q18-14 36 0q-18 14-36 0ZM36 150l14-10v20Z" fill="var(--accent)" fillOpacity=".6" />
+          {/* Swims to the right: head on the right, tail trailing on the left. */}
+          <path d="M14 150q18-14 36 0q-18 14-36 0ZM14 150l-14-10v20Z" fill="var(--accent)" fillOpacity=".6" />
+          <circle cx="41" cy="147" r="2" fill="var(--bg)" />
         </g>
       </g>
     </>
