@@ -89,7 +89,8 @@ export function TimeGrid({ days, onSlotClick, onEventClick }: TimeGridProps) {
                   <button
                     key={event.id}
                     type="button"
-                    className={`time-grid-event event-chip-${event.color ?? 'blue'}`}
+                    className={`time-grid-event event-chip-${event.color ?? 'blue'}${event.sharedBy ? ' shared' : ''}`}
+                    title={event.sharedBy ? `Shared by ${event.sharedBy}` : undefined}
                     style={{ top: style.top, height: style.height }}
                     onClick={(e) => {
                       e.stopPropagation()

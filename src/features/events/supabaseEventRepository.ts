@@ -3,7 +3,7 @@ import type { EventRepository } from './repository'
 import type { CalendarEvent, EventColor, Recurrence } from './types'
 import { readCache, writeCache } from './localCache'
 
-interface EventRow {
+export interface EventRow {
   id: string
   user_id: string
   title: string
@@ -21,7 +21,7 @@ export interface SupabaseEventRepository extends EventRepository {
   subscribe(onRemoteChange: (change: RemoteChange) => void): () => void
 }
 
-function rowToEvent(row: EventRow): CalendarEvent {
+export function rowToEvent(row: EventRow): CalendarEvent {
   return {
     id: row.id,
     title: row.title,

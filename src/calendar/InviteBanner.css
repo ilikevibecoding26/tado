@@ -1,0 +1,47 @@
+.invite-banner {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.invite-banner-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 14px;
+  color: var(--text-h);
+}
+
+.invite-banner-text {
+  min-width: 0;
+}
+
+.invite-banner-when {
+  color: var(--text);
+}
+
+.invite-banner-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.invite-banner-actions button {
+  font: inherit;
+  font-size: 13px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-h);
+  border-radius: var(--radius-sm);
+  padding: 4px 12px;
+  cursor: pointer;
+}
+
+.invite-banner-actions button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-contrast);
+}

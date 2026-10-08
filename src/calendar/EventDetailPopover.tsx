@@ -4,6 +4,7 @@ import { useEventsContext } from '../features/events/EventsContext'
 import { formatTimeLabel } from '../features/events/dateUtils'
 import { dayKey, describeRecurrence } from '../features/events/recurrence'
 import { ScopeDialog } from './ScopeDialog'
+import { ShareDialog } from './ShareDialog'
 import './EventDetailPopover.css'
 
 interface EventDetailPopoverProps {
@@ -14,7 +15,8 @@ interface EventDetailPopoverProps {
 
 export function EventDetailPopover({ event, onClose, onEdit }: EventDetailPopoverProps) {
   const dialogRef = useRef<HTMLDialogElement>(null)
-  const { deleteEvent, skipOccurrence } = useEventsContext()
+  const { deleteEvent, skipOccurrence, leaveShare } = useEventsContext()
+  const [sharing, setSharing] = useState(false)
   const [askingDelete, setAskingDelete] = useState(false)
 
   useEffect(() => {
@@ -44,6 +46,13 @@ export function EventDetailPopover({ event, onClose, onEdit }: EventDetailPopove
     handleClose()
   }
 
+  const handleLeave = () => {
+    if (event.shareId && window.confirm(`Remove "${event.title}" from your calendar?`)) {
+      leaveShare(event.shareId)
+      handleClose()
+    }
+  }
+
   const start = new Date(event.start)
   const end = new Date(event.end)
 
@@ -56,6 +65,7 @@ export function EventDetailPopover({ event, onClose, onEdit }: EventDetailPopove
             ? 'All day'
             : `${formatTimeLabel(start)} – ${formatTimeLabel(end)}`}
         </p>
+        {event.sharedBy && <p className="event-detail-repeat">Shared by {event.sharedBy}</p>}
         {event.recurrence && (
           <p className="event-detail-repeat">{describeRecurrence(event.recurrence, new Date(event.start))}</p>
         )}
@@ -64,14 +74,26 @@ export function EventDetailPopover({ event, onClose, onEdit }: EventDetailPopove
           <button type="button" onClick={handleClose}>
             Close
           </button>
-          <button type="button" onClick={onEdit}>
-            Edit
-          </button>
-          <button type="button" className="danger" onClick={handleDelete}>
-            Delete
-          </button>
+          {event.sharedBy ? (
+            <button type="button" className="danger" onClick={handleLeave}>
+              Remove
+            </button>
+          ) : (
+            <>
+              <button type="button" onClick={() => setSharing(true)}>
+                Share
+              </button>
+              <button type="button" onClick={onEdit}>
+                Edit
+              </button>
+              <button type="button" className="danger" onClick={handleDelete}>
+                Delete
+              </button>
+            </>
+          )}
         </div>
       </div>
+      {sharing && <ShareDialog eventId={event.seriesId ?? event.id} title={event.title} onClose={() => setSharing(false)} />}
       {askingDelete && (
         <ScopeDialog
           title="Delete repeating event"

@@ -11,7 +11,8 @@ export function EventChip({ event, onClick }: EventChipProps) {
   return (
     <button
       type="button"
-      className={`event-chip event-chip-${event.color ?? 'blue'}`}
+      className={`event-chip event-chip-${event.color ?? 'blue'}${event.sharedBy ? ' shared' : ''}`}
+      title={event.sharedBy ? `Shared by ${event.sharedBy}` : undefined}
       onClick={(e) => {
         e.stopPropagation()
         onClick(event)

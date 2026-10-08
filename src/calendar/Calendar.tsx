@@ -10,6 +10,7 @@ import { DayView } from './DayView'
 import { EventFormModal } from './EventFormModal'
 import type { EditScope } from './EventFormModal'
 import { ScopeDialog } from './ScopeDialog'
+import { InviteBanner } from './InviteBanner'
 import { EventDetailPopover } from './EventDetailPopover'
 import './Calendar.css'
 
@@ -55,6 +56,7 @@ export function Calendar() {
         onNext={handleNext}
         onViewChange={setView}
       />
+      <InviteBanner />
       {syncError && <div className="calendar-sync-error">{syncError}</div>}
       <div className="calendar-body">
         <div key={`${view}-${currentDate.toDateString()}`} className="calendar-view-enter">

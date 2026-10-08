@@ -27,4 +27,8 @@ export interface CalendarEvent {
   recurrence?: Recurrence
   /** Only on an occurrence made from a repeating event: the id of the event it comes from. */
   seriesId?: string
+  /** Only on an event someone else shared with you: who owns it. */
+  sharedBy?: string
+  /** Only on an event someone else shared with you: your share, which you can remove to leave it. */
+  shareId?: string
 }

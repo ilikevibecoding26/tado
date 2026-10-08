@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { addDays, differenceInCalendarDays } from 'date-fns'
 import type { CalendarEvent } from './types'
 import { dayKey, expandEvents } from './recurrence'
+import { useSharedEvents } from './useSharedEvents'
 import { createSupabaseEventRepository } from './supabaseEventRepository'
 
 export function useEvents(userId: string) {
@@ -9,6 +10,7 @@ export function useEvents(userId: string) {
   const [events, setEvents] = useState<CalendarEvent[]>([])
   const [loaded, setLoaded] = useState(false)
   const [syncError, setSyncError] = useState<string | null>(null)
+  const { sharedEvents, invites, respondToInvite, leaveShare } = useSharedEvents(userId)
 
   useEffect(() => {
     let cancelled = false
@@ -89,8 +91,11 @@ export function useEvents(userId: string) {
     [repository, events],
   )
 
-  // Repeating events come back as one event per occurrence.
-  const getEventsInRange = useCallback((start: Date, end: Date) => expandEvents(events, start, end), [events])
+  // Your events plus the ones shared with you. Repeating events come back as one event per occurrence.
+  const getEventsInRange = useCallback(
+    (start: Date, end: Date) => expandEvents([...events, ...sharedEvents], start, end),
+    [events, sharedEvents],
+  )
 
   // Leave one day out of a repeating event (deleting it, or editing it on its own).
   const skipOccurrence = useCallback(
@@ -159,5 +164,8 @@ export function useEvents(userId: string) {
     skipOccurrence,
     editOccurrence,
     editSeries,
+    invites,
+    respondToInvite,
+    leaveShare,
   }
 }

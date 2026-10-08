@@ -60,3 +60,9 @@
     display: none;
   }
 }
+
+/* Events someone else shared with you get a dashed outline. */
+.event-chip.shared {
+  outline: 1px dashed color-mix(in srgb, var(--chip) 60%, transparent);
+  outline-offset: -1px;
+}
