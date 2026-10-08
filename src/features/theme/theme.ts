@@ -85,3 +85,53 @@ export function saveEffects(level: EffectsLevel): void {
 export function applyEffects(level: EffectsLevel): void {
   document.documentElement.dataset.effects = level
 }
+
+// Every theme has its own mascot; the names are used for the "You found..." note and the Settings picker.
+export const MASCOT_NAMES: Record<ThemeId, string> = {
+  tado: 'Calendar guy',
+  minimal: 'Dot',
+  candy: 'Cupcake',
+  space: 'Astronaut',
+  arcade: 'Pixel invader',
+  ocean: 'Fish',
+  forest: 'Fox',
+  sunset: 'Sun',
+}
+
+const MASCOT_KEY = 'tado-mascot'
+const FOUND_KEY = 'tado-found-mascots'
+
+/** A guest mascot chosen (or discovered) instead of the theme's own, or null to follow the theme. */
+export function getStoredMascot(): ThemeId | null {
+  try {
+    const stored = localStorage.getItem(MASCOT_KEY)
+    return isThemeId(stored) ? stored : null
+  } catch {
+    return null
+  }
+}
+
+export function saveMascot(id: ThemeId | null): void {
+  try {
+    localStorage.setItem(MASCOT_KEY, id ?? '')
+  } catch {
+    // Storage can be unavailable (private mode); the choice still applies for this session.
+  }
+}
+
+export function getStoredFound(): ThemeId[] {
+  try {
+    const parsed: unknown = JSON.parse(localStorage.getItem(FOUND_KEY) ?? '[]')
+    return Array.isArray(parsed) ? parsed.filter(isThemeId) : []
+  } catch {
+    return []
+  }
+}
+
+export function saveFound(found: ThemeId[]): void {
+  try {
+    localStorage.setItem(FOUND_KEY, JSON.stringify(found))
+  } catch {
+    // Same as above: fine to lose this in private mode.
+  }
+}

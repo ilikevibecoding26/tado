@@ -1,12 +1,12 @@
 import type { MouseEvent } from 'react'
-import { setEffects, setTheme, useAppearance } from '../features/theme/appearance'
-import { EFFECT_LEVELS, THEMES } from '../features/theme/theme'
+import { setEffects, setMascot, setTheme, useAppearance } from '../features/theme/appearance'
+import { EFFECT_LEVELS, MASCOT_NAMES, THEMES } from '../features/theme/theme'
 import { burstConfetti } from '../features/fun/confetti'
 import { playPop } from '../features/fun/sound'
 import './SettingsPage.css'
 
 export function SettingsPage() {
-  const { theme, effects } = useAppearance()
+  const { theme, effects, mascot, found } = useAppearance()
 
   const tryCelebration = (e: MouseEvent<HTMLButtonElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
@@ -71,6 +71,28 @@ export function SettingsPage() {
             Try a celebration
           </button>
         </fieldset>
+
+        {found.length > 0 && (
+          <fieldset className="theme-picker effects-picker">
+            <legend>Secret mascots</legend>
+            <p className="settings-hint">
+              You found some guests. Pick who keeps you company, or let the theme choose. Shows on Calm and All out.
+            </p>
+            <div className="effects-options">
+              <label className="effects-option">
+                <input type="radio" name="mascot" value="" checked={mascot === null} onChange={() => setMascot(null)} />
+                <span className="effects-name">Follow the theme</span>
+                <span className="effects-description">Whoever belongs to the theme you picked</span>
+              </label>
+              {found.map((id) => (
+                <label key={id} className="effects-option">
+                  <input type="radio" name="mascot" value={id} checked={mascot === id} onChange={() => setMascot(id)} />
+                  <span className="effects-name">{MASCOT_NAMES[id]}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        )}
       </div>
     </div>
   )

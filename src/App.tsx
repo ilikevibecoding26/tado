@@ -4,6 +4,7 @@ import { EventsProvider } from './features/events/EventsContext'
 import { TodosProvider } from './features/todos/TodosContext'
 import { AppShell } from './AppShell'
 import { Scenery } from './themes/Scenery'
+import { FoundToast } from './themes/FoundToast'
 import './App.css'
 
 function AppContent() {
@@ -31,6 +32,7 @@ function App() {
     <AuthProvider>
       <Scenery />
       <AppContent />
+      <FoundToast />
     </AuthProvider>
   )
 }

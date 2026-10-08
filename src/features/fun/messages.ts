@@ -156,6 +156,11 @@ function voiceFor({ theme, effects }: Appearance): Voice {
   return VOICES[effects === 'off' ? 'tado' : theme]
 }
 
+// The mascot's own lines: a guest mascot keeps its home theme's voice, even in another theme.
+function speechFor({ theme, effects, mascot }: Appearance): Voice {
+  return VOICES[effects === 'off' ? 'tado' : (mascot ?? theme)]
+}
+
 export function getMilestone(count: number, appearance: Appearance): Milestone {
   const { milestones } = voiceFor(appearance)
   let level = 0
@@ -166,10 +171,10 @@ export function getMilestone(count: number, appearance: Appearance): Milestone {
 }
 
 export function pickRandomMessage(appearance: Appearance): string {
-  const { empty } = voiceFor(appearance)
+  const { empty } = speechFor(appearance)
   return empty[Math.floor(Math.random() * empty.length)]
 }
 
 export function getTodoEmptyMessage(appearance: Appearance): string {
-  return voiceFor(appearance).todoEmpty
+  return speechFor(appearance).todoEmpty
 }

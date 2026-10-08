@@ -134,3 +134,11 @@
     animation: none !important;
   }
 }
+
+/* The mascot is tappable (a secret), so keep rapid taps from selecting or zooming the page. */
+.mascot {
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
