@@ -9,6 +9,7 @@ export function SignIn() {
   const [mode, setMode] = useState<'sign-in' | 'sign-up'>('sign-in')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
 
@@ -46,14 +47,28 @@ export function SignIn() {
           </label>
           <label className="sign-in-field">
             Password
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete={mode === 'sign-in' ? 'current-password' : 'new-password'}
-              required
-              minLength={6}
-            />
+            <span className="sign-in-password">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete={mode === 'sign-in' ? 'current-password' : 'new-password'}
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck={false}
+                required
+                minLength={6}
+              />
+              <button
+                type="button"
+                className="sign-in-show"
+                aria-pressed={showPassword}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                onClick={() => setShowPassword((shown) => !shown)}
+              >
+                {showPassword ? 'Hide' : 'Show'}
+              </button>
+            </span>
           </label>
           {error && <p className="sign-in-error">{error}</p>}
           {mode === 'sign-up' && (

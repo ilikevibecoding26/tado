@@ -93,3 +93,33 @@
   margin-top: 12px;
   padding: 0;
 }
+
+.sign-in-password {
+  position: relative;
+  display: flex;
+}
+
+.sign-in-password input {
+  flex: 1;
+  min-width: 0;
+  padding-right: 56px;
+}
+
+.sign-in-card .sign-in-show {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  font: inherit;
+  font-size: 12px;
+  border: none;
+  background: none;
+  color: var(--accent);
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: var(--radius-sm);
+}
+
+.sign-in-card .sign-in-show:hover {
+  background: var(--accent-bg);
+}
