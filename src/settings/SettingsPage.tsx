@@ -1,5 +1,7 @@
 import { useRef } from 'react'
 import type { MouseEvent } from 'react'
+import { useAuthContext } from '../features/auth/AuthContext'
+import { displayName } from '../features/auth/displayName'
 import { peekTheme, setEffects, setMascot, setTheme, useAppearance } from '../features/theme/appearance'
 import type { ThemeId } from '../features/theme/theme'
 import { EFFECT_LEVELS, MASCOT_NAMES, SECRET_THEMES, THEMES } from '../features/theme/theme'
@@ -8,6 +10,7 @@ import { playPop } from '../features/fun/sound'
 import './SettingsPage.css'
 
 export function SettingsPage() {
+  const { user } = useAuthContext()
   const { theme, effects, mascot, found, goldTheme, returnTheme } = useAppearance()
   const selectedTheme = returnTheme ?? theme
   const holdTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -37,6 +40,11 @@ export function SettingsPage() {
   return (
     <div className="settings-page">
       <div className="settings">
+        {user && (
+          <p className="settings-account">
+            Signed in as <strong>{displayName(user)}</strong>
+          </p>
+        )}
         <fieldset className="theme-picker">
           <legend>Theme</legend>
           <p className="settings-hint">Pick a look for TaDo. Your choice is saved on this device.</p>

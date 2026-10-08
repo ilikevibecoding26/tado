@@ -194,3 +194,17 @@
 .settings-try:hover {
   border-color: var(--accent-border);
 }
+
+.settings-account {
+  margin: 0 0 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+  color: var(--text);
+}
+
+.settings-account strong {
+  color: var(--text-h);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
