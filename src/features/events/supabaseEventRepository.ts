@@ -1,6 +1,6 @@
 import { supabase } from '../auth/supabaseClient'
 import type { EventRepository } from './repository'
-import type { CalendarEvent, EventColor } from './types'
+import type { CalendarEvent, EventColor, Recurrence } from './types'
 import { readCache, writeCache } from './localCache'
 
 interface EventRow {
@@ -12,6 +12,7 @@ interface EventRow {
   all_day: boolean
   description: string | null
   color: string | null
+  recurrence: Recurrence | null
 }
 
 export type RemoteChange = { type: 'upsert'; event: CalendarEvent } | { type: 'delete'; id: string }
@@ -29,6 +30,7 @@ function rowToEvent(row: EventRow): CalendarEvent {
     allDay: row.all_day,
     description: row.description ?? undefined,
     color: (row.color as EventColor | null) ?? undefined,
+    recurrence: row.recurrence ?? undefined,
   }
 }
 
@@ -42,6 +44,7 @@ function eventToRow(event: CalendarEvent, userId: string): EventRow {
     all_day: event.allDay,
     description: event.description ?? null,
     color: event.color ?? null,
+    recurrence: event.recurrence ?? null,
   }
 }
 

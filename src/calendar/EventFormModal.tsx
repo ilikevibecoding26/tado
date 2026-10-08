@@ -1,15 +1,19 @@
 import { useEffect, useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 import { addDays, addHours, format } from 'date-fns'
-import type { CalendarEvent, EventColor } from '../features/events/types'
+import type { CalendarEvent, EventColor, Recurrence, RepeatUnit } from '../features/events/types'
 import { useEventsContext } from '../features/events/EventsContext'
 import { triggerMagic } from '../features/theme/appearance'
 import { burstConfetti } from '../features/fun/confetti'
 import { playPop } from '../features/fun/sound'
 import './EventFormModal.css'
 
+export type EditScope = 'this' | 'all'
+
 interface EventFormModalProps {
   event?: CalendarEvent
+  /** For an occurrence of a repeating event: change just this one, or the whole series. */
+  scope?: EditScope
   initialDate?: Date
   onClose: () => void
 }
@@ -18,9 +22,29 @@ const DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm"
 
 const COLORS: EventColor[] = ['blue', 'green', 'red', 'yellow', 'purple', 'gray']
 
-export function EventFormModal({ event, initialDate, onClose }: EventFormModalProps) {
+type RepeatChoice = 'none' | RepeatUnit | 'custom'
+
+const REPEAT_OPTIONS: { value: RepeatChoice; label: string }[] = [
+  { value: 'none', label: "Doesn't repeat" },
+  { value: 'daily', label: 'Every day' },
+  { value: 'weekly', label: 'Every week' },
+  { value: 'monthly', label: 'Every month' },
+  { value: 'yearly', label: 'Every year' },
+  { value: 'custom', label: 'Custom...' },
+]
+
+const UNIT_LABELS: Record<RepeatUnit, string> = { daily: 'days', weekly: 'weeks', monthly: 'months', yearly: 'years' }
+const WEEKDAY_LETTERS = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
+const WEEKDAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+
+function choiceFor(recurrence?: Recurrence): RepeatChoice {
+  if (!recurrence) return 'none'
+  return recurrence.interval === 1 && !recurrence.weekdays?.length ? recurrence.freq : 'custom'
+}
+
+export function EventFormModal({ event, scope, initialDate, onClose }: EventFormModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null)
-  const { addEvent, updateEvent } = useEventsContext()
+  const { addEvent, updateEvent, editOccurrence, editSeries } = useEventsContext()
 
   const baseDate = event ? new Date(event.start) : (initialDate ?? new Date())
   const baseEnd = event
@@ -36,6 +60,14 @@ export function EventFormModal({ event, initialDate, onClose }: EventFormModalPr
   const [description, setDescription] = useState(event?.description ?? '')
   const [color, setColor] = useState<EventColor>(event?.color ?? 'blue')
   const [error, setError] = useState<string | null>(null)
+
+  // Editing one occurrence on its own can't change how the series repeats.
+  const canRepeat = !(event?.seriesId && scope === 'this')
+  const [repeat, setRepeat] = useState<RepeatChoice>(choiceFor(event?.recurrence))
+  const [everyText, setEveryText] = useState(String(event?.recurrence?.interval ?? 1))
+  const [unit, setUnit] = useState<RepeatUnit>(event?.recurrence?.freq ?? 'weekly')
+  const [weekdays, setWeekdays] = useState<number[]>(event?.recurrence?.weekdays ?? [baseDate.getDay()])
+  const [until, setUntil] = useState(event?.recurrence?.until ?? '')
 
   useEffect(() => {
     dialogRef.current?.showModal()
@@ -59,6 +91,35 @@ export function EventFormModal({ event, initialDate, onClose }: EventFormModalPr
       return
     }
     const endDate = allDay ? addDays(pickedEndDate, 1) : pickedEndDate
+
+    let recurrence: Recurrence | undefined
+    if (canRepeat && repeat !== 'none') {
+      const custom = repeat === 'custom'
+      const freq = custom ? unit : repeat
+      const every = custom ? Math.floor(Number(everyText)) : 1
+      if (!(every >= 1)) {
+        setError('Repeat every needs a number of 1 or more.')
+        return
+      }
+      if (custom && freq === 'weekly' && weekdays.length === 0) {
+        setError('Pick at least one day of the week.')
+        return
+      }
+      if (until && until < format(startDate, 'yyyy-MM-dd')) {
+        setError('The repeat end date must be on or after the start.')
+        return
+      }
+      // Repeating on only the start's own weekday is the default, so there's nothing to store.
+      const onlyStartDay = weekdays.length === 1 && weekdays[0] === startDate.getDay()
+      recurrence = {
+        freq,
+        interval: every,
+        ...(custom && freq === 'weekly' && !onlyStartDay ? { weekdays: [...weekdays].sort((a, b) => a - b) } : {}),
+        ...(until ? { until } : {}),
+        ...(event?.recurrence?.skip?.length ? { skip: event.recurrence.skip } : {}),
+      }
+    }
+
     const payload = {
       title: title.trim(),
       start: startDate.toISOString(),
@@ -66,8 +127,12 @@ export function EventFormModal({ event, initialDate, onClose }: EventFormModalPr
       allDay,
       description: description.trim() || undefined,
       color,
+      recurrence,
     }
-    if (event) {
+    if (event?.seriesId) {
+      if (scope === 'this') editOccurrence(event, payload)
+      else editSeries(event, payload)
+    } else if (event) {
       updateEvent({ ...payload, id: event.id })
     } else {
       addEvent(payload)
@@ -84,7 +149,7 @@ export function EventFormModal({ event, initialDate, onClose }: EventFormModalPr
   return (
     <dialog ref={dialogRef} className="event-form-dialog" onClose={onClose}>
       <form className="event-form" onSubmit={handleSubmit}>
-        <h2>{event ? 'Edit event' : 'New event'}</h2>
+        <h2>{event ? (event.seriesId && scope === 'all' ? 'Edit all events' : 'Edit event') : 'New event'}</h2>
 
         <label className="event-form-field">
           Title
@@ -122,6 +187,74 @@ export function EventFormModal({ event, initialDate, onClose }: EventFormModalPr
             />
           </label>
         </div>
+
+        {canRepeat && (
+          <>
+            <label className="event-form-field">
+              Repeat
+              <select value={repeat} onChange={(e) => setRepeat(e.target.value as RepeatChoice)}>
+                {REPEAT_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            {repeat === 'custom' && (
+              <div className="event-form-row event-form-every">
+                <label className="event-form-field">
+                  Every
+                  <input
+                    type="number"
+                    min={1}
+                    max={999}
+                    step={1}
+                    inputMode="numeric"
+                    value={everyText}
+                    onChange={(e) => setEveryText(e.target.value)}
+                  />
+                </label>
+                <label className="event-form-field">
+                  Unit
+                  <select value={unit} onChange={(e) => setUnit(e.target.value as RepeatUnit)}>
+                    {(Object.keys(UNIT_LABELS) as RepeatUnit[]).map((u) => (
+                      <option key={u} value={u}>
+                        {UNIT_LABELS[u]}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+            )}
+
+            {repeat === 'custom' && unit === 'weekly' && (
+              <div className="event-form-weekdays" role="group" aria-label="Repeat on">
+                {WEEKDAY_LETTERS.map((letter, day) => (
+                  <button
+                    key={day}
+                    type="button"
+                    className={weekdays.includes(day) ? 'on' : ''}
+                    aria-pressed={weekdays.includes(day)}
+                    aria-label={WEEKDAY_NAMES[day]}
+                    onClick={() =>
+                      setWeekdays((current) => (current.includes(day) ? current.filter((d) => d !== day) : [...current, day]))
+                    }
+                  >
+                    {letter}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {repeat !== 'none' && (
+              <label className="event-form-field">
+                Repeat until (optional)
+                <input type="date" value={until} onChange={(e) => setUntil(e.target.value)} />
+              </label>
+            )}
+          </>
+        )}
 
         <label className="event-form-field">
           Color

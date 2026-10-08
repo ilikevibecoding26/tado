@@ -120,3 +120,28 @@
     flex-direction: column;
   }
 }
+
+.event-form-weekdays {
+  display: flex;
+  gap: 6px;
+}
+
+.event-form-weekdays button {
+  flex: 1;
+  font: inherit;
+  font-size: 13px;
+  padding: 6px 0;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--text-h);
+  cursor: pointer;
+  aspect-ratio: 1;
+  max-width: 40px;
+}
+
+.event-form-weekdays button.on {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-contrast);
+}

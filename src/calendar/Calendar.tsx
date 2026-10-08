@@ -8,10 +8,15 @@ import { MonthView } from './MonthView'
 import { WeekView } from './WeekView'
 import { DayView } from './DayView'
 import { EventFormModal } from './EventFormModal'
+import type { EditScope } from './EventFormModal'
+import { ScopeDialog } from './ScopeDialog'
 import { EventDetailPopover } from './EventDetailPopover'
 import './Calendar.css'
 
-type FormModalState = { mode: 'create'; date: Date } | { mode: 'edit'; event: CalendarEvent } | null
+type FormModalState =
+  | { mode: 'create'; date: Date }
+  | { mode: 'edit'; event: CalendarEvent; scope?: EditScope }
+  | null
 
 export function Calendar() {
   const { syncError } = useEventsContext()
@@ -19,6 +24,7 @@ export function Calendar() {
   const [view, setView] = useState<CalendarView>('month')
   const [formModal, setFormModal] = useState<FormModalState>(null)
   const [detailEvent, setDetailEvent] = useState<CalendarEvent | null>(null)
+  const [scopeEvent, setScopeEvent] = useState<CalendarEvent | null>(null)
 
   const handleToday = () => setCurrentDate(new Date())
   const handlePrev = () => setCurrentDate((date) => shiftDate(date, view, -1))
@@ -34,7 +40,9 @@ export function Calendar() {
 
   const handleEdit = (event: CalendarEvent) => {
     setDetailEvent(null)
-    setFormModal({ mode: 'edit', event })
+    // A repeating event asks first whether to change just this one or the whole series.
+    if (event.seriesId) setScopeEvent(event)
+    else setFormModal({ mode: 'edit', event })
   }
 
   return (
@@ -64,8 +72,20 @@ export function Calendar() {
       {formModal && (
         <EventFormModal
           event={formModal.mode === 'edit' ? formModal.event : undefined}
+          scope={formModal.mode === 'edit' ? formModal.scope : undefined}
           initialDate={formModal.mode === 'create' ? formModal.date : undefined}
           onClose={() => setFormModal(null)}
+        />
+      )}
+      {scopeEvent && (
+        <ScopeDialog
+          title="Edit repeating event"
+          verb="change"
+          onChoose={(scope) => {
+            setFormModal({ mode: 'edit', event: scopeEvent, scope })
+            setScopeEvent(null)
+          }}
+          onCancel={() => setScopeEvent(null)}
         />
       )}
       {detailEvent && (

@@ -80,3 +80,9 @@
   color: var(--danger);
   border-color: var(--danger);
 }
+
+.event-detail-repeat {
+  color: var(--text);
+  font-size: 13px;
+  margin: 0;
+}

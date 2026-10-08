@@ -1,7 +1,9 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { CalendarEvent } from '../features/events/types'
 import { useEventsContext } from '../features/events/EventsContext'
 import { formatTimeLabel } from '../features/events/dateUtils'
+import { dayKey, describeRecurrence } from '../features/events/recurrence'
+import { ScopeDialog } from './ScopeDialog'
 import './EventDetailPopover.css'
 
 interface EventDetailPopoverProps {
@@ -12,7 +14,8 @@ interface EventDetailPopoverProps {
 
 export function EventDetailPopover({ event, onClose, onEdit }: EventDetailPopoverProps) {
   const dialogRef = useRef<HTMLDialogElement>(null)
-  const { deleteEvent } = useEventsContext()
+  const { deleteEvent, skipOccurrence } = useEventsContext()
+  const [askingDelete, setAskingDelete] = useState(false)
 
   useEffect(() => {
     dialogRef.current?.showModal()
@@ -24,10 +27,21 @@ export function EventDetailPopover({ event, onClose, onEdit }: EventDetailPopove
   }
 
   const handleDelete = () => {
+    if (event.seriesId) {
+      setAskingDelete(true)
+      return
+    }
     if (window.confirm(`Delete "${event.title}"?`)) {
       deleteEvent(event.id)
       handleClose()
     }
+  }
+
+  const handleDeleteRepeating = (scope: 'this' | 'all') => {
+    if (!event.seriesId) return
+    if (scope === 'all') deleteEvent(event.seriesId)
+    else skipOccurrence(event.seriesId, dayKey(new Date(event.start)))
+    handleClose()
   }
 
   const start = new Date(event.start)
@@ -42,6 +56,9 @@ export function EventDetailPopover({ event, onClose, onEdit }: EventDetailPopove
             ? 'All day'
             : `${formatTimeLabel(start)} – ${formatTimeLabel(end)}`}
         </p>
+        {event.recurrence && (
+          <p className="event-detail-repeat">{describeRecurrence(event.recurrence, new Date(event.start))}</p>
+        )}
         {event.description && <p className="event-detail-description">{event.description}</p>}
         <div className="event-detail-actions">
           <button type="button" onClick={handleClose}>
@@ -55,6 +72,15 @@ export function EventDetailPopover({ event, onClose, onEdit }: EventDetailPopove
           </button>
         </div>
       </div>
+      {askingDelete && (
+        <ScopeDialog
+          title="Delete repeating event"
+          verb="be deleted"
+          danger
+          onChoose={handleDeleteRepeating}
+          onCancel={() => setAskingDelete(false)}
+        />
+      )}
     </dialog>
   )
 }
