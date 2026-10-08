@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { FormEvent } from 'react'
-import { addHours, format } from 'date-fns'
+import { addDays, addHours, format } from 'date-fns'
 import type { CalendarEvent, EventColor } from '../features/events/types'
 import { useEventsContext } from '../features/events/EventsContext'
 import { burstConfetti } from '../features/fun/confetti'
@@ -22,7 +22,11 @@ export function EventFormModal({ event, initialDate, onClose }: EventFormModalPr
   const { addEvent, updateEvent } = useEventsContext()
 
   const baseDate = event ? new Date(event.start) : (initialDate ?? new Date())
-  const baseEnd = event ? new Date(event.end) : addHours(baseDate, 1)
+  const baseEnd = event
+    ? event.allDay
+      ? addDays(new Date(event.end), -1)
+      : new Date(event.end)
+    : addHours(baseDate, 1)
 
   const [title, setTitle] = useState(event?.title ?? '')
   const [allDay, setAllDay] = useState(event?.allDay ?? false)
@@ -48,11 +52,12 @@ export function EventFormModal({ event, initialDate, onClose }: EventFormModalPr
       return
     }
     const startDate = allDay ? new Date(`${start.slice(0, 10)}T00:00`) : new Date(start)
-    const endDate = allDay ? new Date(`${end.slice(0, 10)}T00:00`) : new Date(end)
-    if (startDate > endDate) {
+    const pickedEndDate = allDay ? new Date(`${end.slice(0, 10)}T00:00`) : new Date(end)
+    if (startDate > pickedEndDate) {
       setError('Start must be before end.')
       return
     }
+    const endDate = allDay ? addDays(pickedEndDate, 1) : pickedEndDate
     const payload = {
       title: title.trim(),
       start: startDate.toISOString(),
