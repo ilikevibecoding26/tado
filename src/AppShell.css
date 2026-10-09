@@ -77,3 +77,8 @@
 :root[data-effects='loud'] .app-tabs {
   min-height: 47px;
 }
+
+/* The empty-month banner on Calendar already shows the mascot; don't show two. */
+body:has(.app-pane:not([hidden]) .empty-state-banner) .app-tabs-mascot {
+  display: none;
+}

@@ -24,8 +24,9 @@ export function AppShell() {
     <>
       <nav className="app-tabs" aria-label="Sections">
         <div className="app-tabs-left">
-          {/* On "All out" the mascot keeps you company on every screen except Calendar, which has its own. */}
-          {effects === 'loud' && tab !== 'calendar' && (
+          {/* On "All out" the mascot keeps you company on every screen. On Calendar it steps aside only while
+              the empty-month banner is showing its own copy (see AppShell.css). */}
+          {effects === 'loud' && (
             <span className="app-tabs-mascot">
               <Mascot size={34} />
             </span>
