@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { CalendarEvent } from '../features/events/types'
 import type { CalendarView } from '../features/events/dateUtils'
 import { shiftDate } from '../features/events/dateUtils'
 import { useEventsContext } from '../features/events/EventsContext'
+import { reactWith } from '../features/theme/appearance'
+import { isFarYear, timeTravelLine } from '../features/fun/timeTravel'
 import { Toolbar } from './Toolbar'
 import { MonthView } from './MonthView'
 import { WeekView } from './WeekView'
@@ -26,6 +28,15 @@ export function Calendar() {
   const [formModal, setFormModal] = useState<FormModalState>(null)
   const [detailEvent, setDetailEvent] = useState<CalendarEvent | null>(null)
   const [scopeEvent, setScopeEvent] = useState<CalendarEvent | null>(null)
+
+  // A secret: wander far into the future or the past and the mascot gets lost.
+  const year = currentDate.getFullYear()
+  const wasFar = useRef(false)
+  useEffect(() => {
+    const far = isFarYear(year)
+    if (far && !wasFar.current) reactWith('timewarp', timeTravelLine(year), 4500)
+    wasFar.current = far
+  }, [year])
 
   const handleToday = () => setCurrentDate(new Date())
   const handlePrev = () => setCurrentDate((date) => shiftDate(date, view, -1))
@@ -55,6 +66,7 @@ export function Calendar() {
         onPrev={handlePrev}
         onNext={handleNext}
         onViewChange={setView}
+        onJump={setCurrentDate}
       />
       <InviteBanner />
       {syncError && <div className="calendar-sync-error">{syncError}</div>}

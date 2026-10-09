@@ -107,3 +107,22 @@ export function playPop(themeOverride?: ThemeId, pitch = 1): void {
   notes.forEach((note) => playNote(ctx, note, 0, 1.8, pitch))
   notes.forEach((note) => playNote(ctx, note, 0.2, 0.9, 1.5 * pitch))
 }
+
+/** A quick rising-then-falling swoosh (used when the calendar jumps through time). */
+export function playWhoosh(): void {
+  const ctx = getAudioContext()
+  const start = ctx.currentTime
+  const oscillator = ctx.createOscillator()
+  const gain = ctx.createGain()
+  oscillator.type = 'sawtooth'
+  oscillator.frequency.setValueAtTime(150, start)
+  oscillator.frequency.exponentialRampToValueAtTime(1100, start + 0.18)
+  oscillator.frequency.exponentialRampToValueAtTime(120, start + 0.5)
+  gain.gain.setValueAtTime(0.001, start)
+  gain.gain.exponentialRampToValueAtTime(0.06, start + 0.1)
+  gain.gain.exponentialRampToValueAtTime(0.001, start + 0.5)
+  oscillator.connect(gain)
+  gain.connect(ctx.destination)
+  oscillator.start(start)
+  oscillator.stop(start + 0.5)
+}

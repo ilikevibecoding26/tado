@@ -16,3 +16,20 @@ const forced = forcedHour()
 export function isLateNight(date: Date = new Date()): boolean {
   return (forced ?? date.getHours()) < 5
 }
+
+// Adding ?clock=11:11 to the address pretends it's that time, so the 11:11 wish can be previewed any time.
+function forcedClock(): string | null {
+  try {
+    const value = new URLSearchParams(window.location.search).get('clock')
+    return value && /^\d{1,2}:\d{2}$/.test(value) ? value.padStart(5, '0') : null
+  } catch {
+    return null
+  }
+}
+
+const forcedTime = forcedClock()
+
+/** The time as `HH:MM` on a 24-hour clock. */
+export function clockNow(date: Date = new Date()): string {
+  return forcedTime ?? `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
+}

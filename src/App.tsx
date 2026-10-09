@@ -9,6 +9,7 @@ import { PartyMode } from './themes/PartyMode'
 import { MagicEffects } from './themes/MagicEffects'
 import { SecretKeys } from './themes/SecretKeys'
 import { DailyHello } from './themes/DailyHello'
+import { WishTime } from './themes/WishTime'
 import './App.css'
 
 function AppContent() {
@@ -41,6 +42,7 @@ function App() {
       <MagicEffects />
       <SecretKeys />
       <DailyHello />
+      <WishTime />
     </AuthProvider>
   )
 }

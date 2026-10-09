@@ -175,17 +175,21 @@ export function showNotice(text: string): void {
 
 let magicTimer: ReturnType<typeof setTimeout> | null = null
 
-/** Call with the title of a newly created event or todo; a magic word makes the mascot react. */
-export function triggerMagic(text: string): void {
+/** Make the mascot react (and show a note) for `duration` ms. Calm and All out only. */
+export function reactWith(word: MagicWord, notice: string, duration: number): void {
   if (state.effects === 'off') return
-  const hit = findMagicWord(text)
-  if (!hit) return
   const nonce = Date.now()
   if (magicTimer) clearTimeout(magicTimer)
-  commit({ ...state, magic: { word: hit.word, nonce }, notice: { text: hit.notice, nonce } })
+  commit({ ...state, magic: { word, nonce }, notice: { text: notice, nonce } })
   magicTimer = setTimeout(() => {
     if (state.magic?.nonce === nonce) commit({ ...state, magic: null })
-  }, hit.duration)
+  }, duration)
+}
+
+/** Call with the title of a newly created event or todo; a magic word makes the mascot react. */
+export function triggerMagic(text: string): void {
+  const hit = findMagicWord(text)
+  if (hit) reactWith(hit.word, hit.notice, hit.duration)
 }
 
 export function setMascot(mascot: ThemeId | null): void {

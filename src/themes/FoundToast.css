@@ -9,7 +9,8 @@
   background: var(--accent);
   color: var(--accent-contrast);
   font-size: 14px;
-  white-space: nowrap;
+  max-width: min(90vw, 420px);
+  text-align: center;
   pointer-events: none;
   animation: found-toast-in 0.3s ease-out;
 }
