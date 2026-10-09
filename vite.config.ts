@@ -15,7 +15,7 @@ export default defineConfig({
         short_name: 'TaDo',
         description: 'A fun, fast personal calendar',
         theme_color: '#aa3bff',
-        background_color: '#ffffff',
+        background_color: '#151a2e',
         display: 'standalone',
         start_url: '/tado/',
         scope: '/tado/',
