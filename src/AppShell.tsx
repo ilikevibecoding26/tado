@@ -4,14 +4,16 @@ import { useAppearance } from './features/theme/appearance'
 import { Mascot } from './calendar/Mascot'
 import { Calendar } from './calendar/Calendar'
 import { TodoList } from './todos/TodoList'
+import { TimerPage } from './timer/TimerPage'
 import { SettingsPage } from './settings/SettingsPage'
 import './AppShell.css'
 
-type Tab = 'calendar' | 'todos' | 'settings'
+type Tab = 'calendar' | 'todos' | 'timer' | 'settings'
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'calendar', label: 'Calendar' },
   { id: 'todos', label: 'Todos' },
+  { id: 'timer', label: 'Timer' },
   { id: 'settings', label: 'Settings' },
 ]
 
@@ -54,6 +56,9 @@ export function AppShell() {
       </div>
       <div className="app-pane" hidden={tab !== 'todos'}>
         <TodoList />
+      </div>
+      <div className="app-pane" hidden={tab !== 'timer'}>
+        <TimerPage />
       </div>
       <div className="app-pane" hidden={tab !== 'settings'}>
         <SettingsPage />
