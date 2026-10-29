@@ -9,6 +9,7 @@ interface AuthContextValue {
   signIn: (username: string, password: string) => Promise<{ error: string | null }>
   signUp: (username: string, password: string) => Promise<{ error: string | null }>
   signOut: () => Promise<void>
+  changePassword: (currentPassword: string, newPassword: string) => Promise<{ error: string | null }>
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null)
@@ -69,7 +70,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await supabase.auth.signOut()
   }
 
-  return <AuthContext.Provider value={{ user, loading, signIn, signUp, signOut }}>{children}</AuthContext.Provider>
+  // Changing a password needs the current one: signing in with it again proves it's you at the keyboard.
+  const changePassword = async (currentPassword: string, newPassword: string) => {
+    if (!user?.email) return { error: "You're not signed in." }
+    const { error: checkError } = await supabase.auth.signInWithPassword({ email: user.email, password: currentPassword })
+    if (checkError) {
+      return { error: checkError.message.toLowerCase().includes('invalid login') ? 'Your current password is wrong.' : friendlyError(checkError.message) }
+    }
+    const { error } = await supabase.auth.updateUser({ password: newPassword })
+    return { error: error ? friendlyError(error.message) : null }
+  }
+
+  return <AuthContext.Provider value={{ user, loading, signIn, signUp, signOut, changePassword }}>{children}</AuthContext.Provider>
 }
 
 export function useAuthContext(): AuthContextValue {

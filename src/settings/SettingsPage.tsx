@@ -7,6 +7,7 @@ import type { ThemeId } from '../features/theme/theme'
 import { EFFECT_LEVELS, MASCOT_NAMES, SECRET_THEMES, THEMES } from '../features/theme/theme'
 import { burstConfetti } from '../features/fun/confetti'
 import { playPop } from '../features/fun/sound'
+import { ChangePassword } from './ChangePassword'
 import './SettingsPage.css'
 
 export function SettingsPage() {
@@ -41,9 +42,12 @@ export function SettingsPage() {
     <div className="settings-page">
       <div className="settings">
         {user && (
-          <p className="settings-account">
-            Signed in as <strong>{displayName(user)}</strong>
-          </p>
+          <section className="settings-account-block">
+            <p className="settings-account">
+              Signed in as <strong>{displayName(user)}</strong>
+            </p>
+            <ChangePassword />
+          </section>
         )}
         <fieldset className="theme-picker">
           <legend>Theme</legend>
