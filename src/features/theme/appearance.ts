@@ -1,6 +1,7 @@
 import { useSyncExternalStore } from 'react'
 import {
   MASCOT_NAMES,
+  SEASONAL_THEMES,
   THEMES,
   applyEffects,
   applyTheme,
@@ -52,7 +53,8 @@ export interface Appearance {
 }
 
 // The mascots you have to meet to unlock the golden one.
-const COLLECTABLE = THEMES.map((t) => t.id).filter((id) => id !== 'gold')
+// Holiday themes aren't part of the collection: they only exist for part of the year.
+const COLLECTABLE = THEMES.map((t) => t.id).filter((id) => id !== 'gold' && !SEASONAL_THEMES.includes(id))
 
 // One shared copy of the user's look, so mascots, messages, sounds and scenery all react together.
 const secrets = getStoredSecrets()
@@ -87,7 +89,7 @@ function subscribe(listener: () => void): () => void {
 
 // Seeing a theme's own mascot (with effects on) counts as meeting it.
 function noteMet(next: Appearance): Appearance {
-  if (next.effects === 'off' || next.theme === 'gold' || next.met.includes(next.theme)) return next
+  if (next.effects === 'off' || next.theme === 'gold' || SEASONAL_THEMES.includes(next.theme) || next.met.includes(next.theme)) return next
   return { ...next, met: [...next.met, next.theme] }
 }
 
@@ -209,7 +211,7 @@ export function unlockGoldTheme(): void {
 
 // Steps to the next character in theme order; arriving back at the theme's own mascot clears the guest.
 function cycleMascot(): void {
-  const order = THEMES.map((t) => t.id).filter((id) => id !== 'gold' || state.goldMascot)
+  const order = THEMES.map((t) => t.id).filter((id) => (id !== 'gold' || state.goldMascot) && !SEASONAL_THEMES.includes(id))
   const current = state.mascot ?? state.theme
   const next = order[(order.indexOf(current) + 1) % order.length]
   const mascot = next === state.theme ? null : next

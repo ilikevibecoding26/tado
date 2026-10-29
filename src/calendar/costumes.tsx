@@ -15,6 +15,12 @@ const HEAD: Record<ThemeId, { x: number; y: number; scale: number }> = {
   forest: { x: 50, y: 32, scale: 0.75 },
   sunset: { x: 50, y: 22, scale: 0.8 },
   gold: { x: 50, y: -2, scale: 0.8 },
+  // Holiday mascots already dress for the occasion, so these are never worn.
+  halloween: { x: 50, y: 24, scale: 0.8 },
+  christmas: { x: 50, y: 14, scale: 0.8 },
+  newyear: { x: 50, y: 6, scale: 0.8 },
+  valentines: { x: 50, y: 10, scale: 0.8 },
+  stpatrick: { x: 50, y: 10, scale: 0.8 },
 }
 
 // Each costume is drawn with its base at (0, 0), growing upward.

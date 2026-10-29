@@ -410,3 +410,220 @@
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: ui-serif, Georgia, 'Times New Roman', serif;
 }
+
+/* ---------- Holiday themes (only offered in Settings during their season) ---------- */
+
+/* Halloween (always dark) */
+[data-theme='halloween'] {
+  color-scheme: dark;
+
+  --text: #b9a6cf;
+  --text-h: #fff1de;
+  --bg: #130e1d;
+  --bg-image:
+    radial-gradient(circle at 88% 6%, rgba(255, 214, 120, 0.16), transparent 32%),
+    radial-gradient(ellipse at 10% 110%, rgba(255, 138, 61, 0.12), transparent 55%);
+  --border: #3a2a52;
+  --code-bg: #1c1530;
+  --accent: #ff8a3d;
+  --accent-bg: rgba(255, 138, 61, 0.15);
+  --accent-border: rgba(255, 138, 61, 0.5);
+  --accent-contrast: #1a0d00;
+  --danger: #ff6b6b;
+
+  --hue-blue: #6b8cff;
+  --hue-green: #7cd35a;
+  --hue-red: #ff5d4d;
+  --hue-yellow: #ffcf4a;
+  --hue-purple: #b78cff;
+  --hue-gray: #9a8fb0;
+  --confetti: #ff8a3d, #b78cff, #7cd35a, #ffcf4a, #fff1de, #ff5d4d;
+
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: ui-serif, Georgia, 'Times New Roman', serif;
+}
+
+/* Christmas */
+[data-theme='christmas'] {
+  color-scheme: light dark;
+
+  --text: #725f5f;
+  --text-h: #2a1313;
+  --bg: #fffaf6;
+  --bg-image: none;
+  --border: #ecd9cf;
+  --code-bg: #f7ece4;
+  --accent: #c8102e;
+  --accent-bg: rgba(200, 16, 46, 0.1);
+  --accent-border: rgba(200, 16, 46, 0.5);
+  --accent-contrast: #fff;
+  --danger: #a30d24;
+
+  --hue-blue: #3b82c4;
+  --hue-green: #2f8f4e;
+  --hue-red: #d6293e;
+  --hue-yellow: #e0a81c;
+  --hue-purple: #8a5cc4;
+  --hue-gray: #7a7070;
+  --confetti: #c8102e, #2f8f4e, #ffd24a, #ffffff, #5ec8ff, #e0a81c;
+
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: ui-serif, Georgia, 'Times New Roman', serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme='christmas'] {
+    --text: #c9b3b3;
+    --text-h: #fff4f0;
+    --bg: #131d18;
+    --border: #2f4a3b;
+    --code-bg: #1a2a22;
+    --accent: #ff6b7d;
+    --accent-bg: rgba(255, 107, 125, 0.15);
+    --accent-border: rgba(255, 107, 125, 0.5);
+    --accent-contrast: #1a0509;
+    --danger: #ff8a96;
+  }
+}
+
+/* New Year (always dark) */
+[data-theme='newyear'] {
+  color-scheme: dark;
+
+  --text: #9fb0d8;
+  --text-h: #f1f5ff;
+  --bg: #090d22;
+  --bg-image:
+    radial-gradient(circle at 20% 15%, rgba(255, 95, 162, 0.14), transparent 30%),
+    radial-gradient(circle at 80% 25%, rgba(94, 230, 255, 0.14), transparent 32%),
+    radial-gradient(circle at 50% 110%, rgba(255, 209, 102, 0.12), transparent 45%);
+  --border: #222d5e;
+  --code-bg: #101736;
+  --accent: #5ee6ff;
+  --accent-bg: rgba(94, 230, 255, 0.14);
+  --accent-border: rgba(94, 230, 255, 0.5);
+  --accent-contrast: #04101a;
+  --danger: #ff7a90;
+
+  --hue-blue: #5b8cff;
+  --hue-green: #4ade80;
+  --hue-red: #ff5f8a;
+  --hue-yellow: #ffd166;
+  --hue-purple: #b08cff;
+  --hue-gray: #8a95b8;
+  --confetti: #5ee6ff, #ff5fa2, #ffd166, #b08cff, #ffffff, #4ade80;
+
+  --radius-xs: 5px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Valentine's Day */
+[data-theme='valentines'] {
+  color-scheme: light dark;
+
+  --text: #85606c;
+  --text-h: #3a1020;
+  --bg: #fff6f8;
+  --bg-image: none;
+  --border: #f4d3dc;
+  --code-bg: #fbe8ed;
+  --accent: #d6336c;
+  --accent-bg: rgba(214, 51, 108, 0.1);
+  --accent-border: rgba(214, 51, 108, 0.5);
+  --accent-contrast: #fff;
+  --danger: #b0123f;
+
+  --hue-blue: #6b8fe0;
+  --hue-green: #4aa57a;
+  --hue-red: #e0436b;
+  --hue-yellow: #e5a93a;
+  --hue-purple: #b05cc4;
+  --hue-gray: #8a7a80;
+  --confetti: #d6336c, #ff8fab, #ffc2d1, #ffffff, #b05cc4, #ff4d6d;
+
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: ui-serif, Georgia, 'Times New Roman', serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme='valentines'] {
+    --text: #d3aab8;
+    --text-h: #ffeef3;
+    --bg: #1f1017;
+    --border: #4a2433;
+    --code-bg: #2a141e;
+    --accent: #ff7aa2;
+    --accent-bg: rgba(255, 122, 162, 0.15);
+    --accent-border: rgba(255, 122, 162, 0.5);
+    --accent-contrast: #2a0614;
+    --danger: #ff8aa0;
+  }
+}
+
+/* St Patrick's Day */
+[data-theme='stpatrick'] {
+  color-scheme: light dark;
+
+  --text: #587060;
+  --text-h: #10301c;
+  --bg: #f5fbf1;
+  --bg-image: none;
+  --border: #cfe6c4;
+  --code-bg: #e7f3df;
+  --accent: #12a150;
+  --accent-bg: rgba(18, 161, 80, 0.12);
+  --accent-border: rgba(18, 161, 80, 0.5);
+  --accent-contrast: #fff;
+  --danger: #b92d2d;
+
+  --hue-blue: #3b82c4;
+  --hue-green: #1f9d55;
+  --hue-red: #e0533f;
+  --hue-yellow: #e0a81c;
+  --hue-purple: #8a6bb8;
+  --hue-gray: #6f806f;
+  --confetti: #12a150, #ffd24a, #8bd36a, #ff9f43, #5ec8ff, #b784f0;
+
+  --radius-xs: 5px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: ui-serif, Georgia, 'Times New Roman', serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme='stpatrick'] {
+    --text: #a9c9b0;
+    --text-h: #effaf1;
+    --bg: #0f1d14;
+    --border: #25452f;
+    --code-bg: #16281c;
+    --accent: #4ade80;
+    --accent-bg: rgba(74, 222, 128, 0.15);
+    --accent-border: rgba(74, 222, 128, 0.5);
+    --accent-contrast: #06180c;
+    --danger: #ff8a80;
+  }
+}

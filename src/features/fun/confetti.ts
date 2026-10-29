@@ -27,6 +27,11 @@ const STYLES: Record<ThemeId, Style> = {
   forest: { shapes: ['leaf'], gravity: 0.06, drag: 0.96, launch: 0.8, sway: 1.1, floats: false },
   sunset: { shapes: ['ember', 'dot'], gravity: -0.04, drag: 0.97, launch: 0.6, sway: 0.4, floats: true },
   gold: { shapes: ['star', 'rect', 'dot'], gravity: 0.3, drag: 1, launch: 1, sway: 0, floats: false },
+  halloween: { shapes: ['ember', 'dot'], gravity: -0.03, drag: 0.97, launch: 0.6, sway: 0.5, floats: true },
+  christmas: { shapes: ['dot', 'star'], gravity: 0.05, drag: 0.96, launch: 0.7, sway: 1, floats: false },
+  newyear: { shapes: ['rect', 'star', 'dot'], gravity: 0.3, drag: 1, launch: 1.2, sway: 0, floats: false },
+  valentines: { shapes: ['heart'], gravity: -0.04, drag: 0.97, launch: 0.6, sway: 0.6, floats: true },
+  stpatrick: { shapes: ['leaf', 'dot'], gravity: 0.06, drag: 0.96, launch: 0.8, sway: 1.1, floats: false },
 }
 
 interface Level {

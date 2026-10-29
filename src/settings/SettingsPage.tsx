@@ -4,7 +4,7 @@ import { useAuthContext } from '../features/auth/AuthContext'
 import { displayName } from '../features/auth/displayName'
 import { peekTheme, setEffects, setMascot, setTheme, useAppearance } from '../features/theme/appearance'
 import type { ThemeId } from '../features/theme/theme'
-import { EFFECT_LEVELS, MASCOT_NAMES, SECRET_THEMES, THEMES } from '../features/theme/theme'
+import { EFFECT_LEVELS, MASCOT_NAMES, SECRET_THEMES, THEMES, isThemeAvailable } from '../features/theme/theme'
 import { burstConfetti } from '../features/fun/confetti'
 import { playPop } from '../features/fun/sound'
 import { ChangePassword } from './ChangePassword'
@@ -30,7 +30,10 @@ export function SettingsPage() {
     if (holdTimer.current) clearTimeout(holdTimer.current)
     holdTimer.current = null
   }
-  const visibleThemes = THEMES.filter((t) => goldTheme || !SECRET_THEMES.includes(t.id))
+  // Holiday themes are listed only during their season (or if one is already picked).
+  const visibleThemes = THEMES.filter(
+    (t) => (goldTheme || !SECRET_THEMES.includes(t.id)) && (isThemeAvailable(t.id) || t.id === selectedTheme),
+  )
 
   const tryCelebration = (e: MouseEvent<HTMLButtonElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()

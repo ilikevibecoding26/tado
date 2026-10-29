@@ -1,7 +1,5 @@
 import type { CSSProperties, ReactElement } from 'react'
 import { useAppearance } from '../features/theme/appearance'
-import { getHoliday } from '../features/fun/holidays'
-import type { HolidayId } from '../features/fun/holidays'
 import type { ThemeId } from '../features/theme/theme'
 import './Scenery.css'
 
@@ -304,85 +302,203 @@ function GoldScenery() {
 
 const HEART = 'M0 6C-10 -4 -5 -14 0 -8C5 -14 10 -4 0 6Z'
 
-// Seasonal extras layered over the theme's scenery on holidays (see features/fun/holidays.ts).
-// Animated parts sit inside a translated <g> so the CSS animation doesn't replace the position.
-function HolidayScenery({ holiday }: { holiday: HolidayId }) {
-  switch (holiday) {
-    case 'halloween':
-      return (
-        <>
-          {[
-            [470, 52, 0],
-            [560, 78, 1.6],
-            [650, 46, 0.8],
-          ].map(([x, y, d]) => (
-            <g key={x} transform={`translate(${x} ${y})`}>
-              <path className="sc-drift" d="M0 0L-16 -8L-12 2L-8 -1L-4 4L0 0L4 4L8 -1L12 2L16 -8Z" fill="var(--text-h)" fillOpacity=".45" style={delay(d)} />
-            </g>
-          ))}
-          {[430, 770].map((x) => (
-            <g key={x} transform={`translate(${x} 186)`}>
-              <ellipse rx="17" ry="13" fill="#ff8a3d" fillOpacity=".8" />
-              <path d="M-3 -13Q0 -21 5 -19" stroke="#4a7c2a" strokeWidth="3" fill="none" strokeLinecap="round" />
-            </g>
-          ))}
-        </>
-      )
-    case 'christmas':
-      return (
-        <>
-          {[400, 455, 510, 565, 620, 675, 730, 785].map((x, i) => (
-            <circle key={x} className="sc-fall" cx={x} cy="0" r="3" fill="#fff" stroke="var(--hue-blue)" strokeOpacity=".5" style={delay(i * 0.9)} />
-          ))}
-          {[
-            [470, 1],
-            [745, 0.75],
-          ].map(([x, scale]) => (
-            <g key={x} transform={`translate(${x} 200) scale(${scale})`}>
-              <rect x="-3" y="-12" width="6" height="12" fill="#8b5a2b" fillOpacity=".6" />
-              <path d="M0 -66L18 -34H9L24 -12H-24L-9 -34H-18Z" fill="#2f9e44" fillOpacity=".6" />
-              <circle cx="0" cy="-68" r="4" fill="#ffd24a" />
-            </g>
-          ))}
-        </>
-      )
-    case 'newyear':
-      return (
-        <>
-          {[
-            [420, 60, 9, '#ff6b81', 0],
-            [500, 100, 8, '#ffd24a', 0.9],
-            [580, 44, 10, '#5ec8ff', 1.8],
-            [660, 92, 8, '#7c5cff', 0.4],
-            [740, 56, 9, '#ff6b81', 1.3],
-            [800, 104, 7, '#ffd24a', 2.2],
-          ].map(([x, y, size, color, d]) => (
-            <path key={x as number} className="sc-twinkle" d={sparkle(x as number, y as number, size as number)} fill={color as string} fillOpacity=".85" style={delay(d as number)} />
-          ))}
-        </>
-      )
-    case 'valentines':
-      return (
-        <>
-          {[420, 500, 580, 660, 740, 800].map((x, i) => (
-            <g key={x} transform={`translate(${x} 190)`}>
-              <path className="sc-rise" d={HEART} fill="#ff4d6d" fillOpacity=".75" style={delay(i * 1.1)} />
-            </g>
-          ))}
-        </>
-      )
-    case 'stpatrick':
-      return (
-        <>
-          {['#ff6b6b', '#ffb347', '#ffe14d', '#5fd068', '#5ec8ff', '#a98bff'].map((color, i) => (
-            <path key={color} d={`M${450 + i * 8} 200A${150 - i * 8} ${150 - i * 8} 0 0 1 ${750 - i * 8} 200`} fill="none" stroke={color} strokeOpacity=".4" strokeWidth="8" />
-          ))}
-          {[580, 600, 620].map((x) => (
-            <circle key={x} cx={x} cy="192" r="6" fill="#ffd24a" fillOpacity=".9" />
-          ))}
-        </>
-      )
-  }
+// ---------- Holiday scenes (their themes are only offered during the season; see features/fun/holidays.ts) ----------
+
+function HalloweenScenery() {
+  return (
+    <>
+      <circle cx="1060" cy="52" r="22" fill="#ffe9a8" fillOpacity=".8" />
+      <circle cx="1052" cy="46" r="4" fill="#e6c870" fillOpacity=".6" />
+      <circle cx="1068" cy="60" r="3" fill="#e6c870" fillOpacity=".6" />
+      <path className="sc-wave sc-wave-1" d={wave(158, 10, 260)} fill="var(--accent)" fillOpacity=".1" />
+      <path className="sc-wave sc-wave-2" d={wave(176, 8, 200)} fill="var(--accent)" fillOpacity=".18" />
+      {[300, 385, 905].map((x, i) => (
+        <path key={x} transform={`translate(${x} 200) scale(${1 - i * 0.12})`} d="M-14 0V-30Q-14 -44 0 -44Q14 -44 14 -30V0Z" fill="var(--text-h)" fillOpacity=".2" />
+      ))}
+      {[
+        [470, 52, 0],
+        [560, 78, 1.6],
+        [650, 46, 0.8],
+      ].map(([x, y, d]) => (
+        <g key={x} transform={`translate(${x} ${y})`}>
+          <path className="sc-drift" d="M0 0L-16 -8L-12 2L-8 -1L-4 4L0 0L4 4L8 -1L12 2L16 -8Z" fill="var(--text-h)" fillOpacity=".4" style={delay(d)} />
+        </g>
+      ))}
+      {[430, 770, 1000].map((x) => (
+        <g key={x} transform={`translate(${x} 188)`}>
+          <ellipse rx="17" ry="13" fill="#ff8a3d" fillOpacity=".85" />
+          <path d="M-3 -13Q0 -21 5 -19" stroke="#4a7c2a" strokeWidth="3" fill="none" strokeLinecap="round" />
+        </g>
+      ))}
+      <g className="sc-loud">
+        {[
+          [200, 70, 0.4],
+          [820, 40, 2],
+          [940, 86, 1.1],
+        ].map(([x, y, d]) => (
+          <g key={x} transform={`translate(${x} ${y})`}>
+            <path className="sc-drift" d="M0 0L-16 -8L-12 2L-8 -1L-4 4L0 0L4 4L8 -1L12 2L16 -8Z" fill="var(--text-h)" fillOpacity=".4" style={delay(d)} />
+          </g>
+        ))}
+      </g>
+    </>
+  )
+}
+
+function ChristmasScenery() {
+  const flakes = [90, 170, 260, 350, 440, 530, 620, 710, 800, 890, 980, 1070, 1150]
+  return (
+    <>
+      <path className="sc-twinkle" d={sparkle(600, 38, 12)} fill="#ffd24a" />
+      <path d={wave(150, 10, 300)} fill="#ffffff" fillOpacity=".75" />
+      <path d={wave(172, 8, 240)} fill="#e6eef7" fillOpacity=".85" />
+      {[
+        [150, 1],
+        [330, 0.8],
+        [880, 0.9],
+        [1070, 0.75],
+      ].map(([x, scale]) => (
+        <g key={x} transform={`translate(${x} 200) scale(${scale})`}>
+          <rect x="-4" y="-14" width="8" height="16" fill="#8b5a2b" fillOpacity=".7" />
+          <path d="M0 -112 L24 -66 H11 L32 -30 H14 L38 -8 H-38 L-14 -30 H-32 L-11 -66 H-24Z" fill="#2f8f4e" fillOpacity=".85" />
+          <path d="M0 -112 L10 -92 H-10Z M-11 -66 L11 -66 L7 -58 H-7Z" fill="#ffffff" fillOpacity=".9" />
+          <circle cx="-9" cy="-44" r="3.5" fill="#c8102e" />
+          <circle cx="12" cy="-24" r="3.5" fill="#ffd24a" />
+        </g>
+      ))}
+      {flakes.slice(0, 8).map((x, i) => (
+        <circle key={x} className="sc-fall" cx={x} cy="0" r="3" fill="#ffffff" stroke="var(--hue-blue)" strokeOpacity=".5" style={delay(i * 0.8)} />
+      ))}
+      <g className="sc-loud">
+        {flakes.slice(8).concat([45, 215, 395]).map((x, i) => (
+          <circle key={x} className="sc-fall" cx={x} cy="0" r="2.5" fill="#ffffff" stroke="var(--hue-blue)" strokeOpacity=".5" style={delay(i * 0.6 + 0.3)} />
+        ))}
+      </g>
+    </>
+  )
+}
+
+function NewYearScenery() {
+  const buildings: [number, number, number][] = [
+    [40, 70, 70],
+    [120, 54, 104],
+    [180, 80, 62],
+    [270, 60, 118],
+    [340, 90, 80],
+    [440, 50, 96],
+    [500, 74, 58],
+    [660, 66, 110],
+    [736, 84, 72],
+    [830, 56, 100],
+    [896, 78, 64],
+    [980, 62, 114],
+    [1050, 90, 76],
+    [1150, 50, 90],
+  ]
+  return (
+    <>
+      {buildings.map(([x, w, h]) => (
+        <g key={x}>
+          <rect x={x} y={200 - h} width={w} height={h + 4} fill="var(--code-bg)" stroke="var(--border)" />
+          {Array.from({ length: Math.floor(h / 22) }, (_, row) =>
+            Array.from({ length: Math.floor(w / 18) }, (_, col) =>
+              (row + col + x) % 3 === 0 ? null : (
+                <rect key={`${row}-${col}`} x={x + 8 + col * 18} y={200 - h + 10 + row * 22} width="7" height="9" fill="#ffd166" fillOpacity=".55" />
+              ),
+            ),
+          )}
+        </g>
+      ))}
+      {[
+        [210, 60, 10, '#ff5fa2', 0],
+        [380, 36, 9, '#5ee6ff', 1.1],
+        [560, 70, 12, '#ffd166', 0.5],
+        [720, 40, 10, '#b08cff', 1.8],
+        [900, 66, 9, '#ff5fa2', 0.9],
+        [1090, 44, 11, '#5ee6ff', 1.5],
+      ].map(([x, y, size, color, d]) => (
+        <path key={x as number} className="sc-twinkle" d={sparkle(x as number, y as number, size as number)} fill={color as string} fillOpacity=".9" style={delay(d as number)} />
+      ))}
+      <g className="sc-loud">
+        {[
+          [300, 56, '#ffd166'],
+          [620, 34, '#ff5fa2'],
+          [1000, 50, '#5ee6ff'],
+        ].map(([x, y, color], i) => (
+          <g key={x as number} className="sc-twinkle" style={delay(i * 0.9)} stroke={color as string} strokeWidth="2.5" strokeLinecap="round" strokeOpacity=".85">
+            {[0, 45, 90, 135, 180, 225, 270, 315].map((angle) => (
+              <line key={angle} x1={x as number} y1={(y as number) - 8} x2={x as number} y2={(y as number) - 22} transform={`rotate(${angle} ${x} ${y})`} />
+            ))}
+          </g>
+        ))}
+      </g>
+    </>
+  )
+}
+
+function ValentinesScenery() {
+  const hearts: [number, number, number][] = [
+    [140, 0, 1],
+    [330, 1.4, 1.3],
+    [520, 0.6, 0.9],
+    [700, 2.2, 1.2],
+    [880, 1, 1],
+    [1060, 1.8, 1.4],
+  ]
+  return (
+    <>
+      <path className="sc-wave sc-wave-1" d={wave(150, 12, 240)} fill="var(--accent)" fillOpacity=".12" />
+      <path className="sc-wave sc-wave-2" d={wave(172, 10, 200)} fill="var(--accent)" fillOpacity=".2" />
+      {hearts.map(([x, d, scale]) => (
+        <g key={x} transform={`translate(${x} 190) scale(${scale})`}>
+          <path className="sc-rise" d={HEART} fill="var(--accent)" fillOpacity=".7" style={delay(d)} />
+        </g>
+      ))}
+      <g className="sc-loud">
+        {[230, 430, 610, 790, 970].map((x, i) => (
+          <g key={x} transform={`translate(${x} 190)`}>
+            <path className="sc-rise" d={HEART} fill="#ff8fab" fillOpacity=".7" style={delay(i * 0.7 + 0.4)} />
+          </g>
+        ))}
+      </g>
+    </>
+  )
+}
+
+function StPatrickScenery() {
+  const clover = (x: number, y: number) => (
+    <g key={`${x}-${y}`} fill="var(--accent)" fillOpacity=".75">
+      <circle cx={x - 4} cy={y - 4} r="4" />
+      <circle cx={x + 4} cy={y - 4} r="4" />
+      <circle cx={x - 4} cy={y + 4} r="4" />
+      <circle cx={x + 4} cy={y + 4} r="4" />
+    </g>
+  )
+  return (
+    <>
+      {['#ff6b6b', '#ffb347', '#ffe14d', '#5fd068', '#5ec8ff', '#a98bff'].map((color, i) => (
+        <path key={color} d={`M${420 + i * 9} 200A${170 - i * 9} ${170 - i * 9} 0 0 1 ${780 - i * 9} 200`} fill="none" stroke={color} strokeOpacity=".45" strokeWidth="8" />
+      ))}
+      <path d={wave(152, 14, 320)} fill="var(--accent)" fillOpacity=".18" />
+      <path d={wave(174, 10, 260)} fill="var(--accent)" fillOpacity=".3" />
+      <g transform="translate(790 190)">
+        <path d="M-18 -6Q-22 14 0 14Q22 14 18 -6Z" fill="#2b2b3a" fillOpacity=".85" />
+        {[-10, 0, 10].map((x, i) => (
+          <circle key={x} cx={x} cy={-9 - (i === 1 ? 4 : 0)} r="6" fill="#ffd24a" />
+        ))}
+      </g>
+      {[110, 260, 960, 1090].map((x, i) => clover(x, 188 - (i % 2) * 6))}
+      <g className="sc-loud">
+        {[
+          [160, 80, 0],
+          [330, 50, 1.2],
+          [1020, 70, 0.6],
+        ].map(([x, y, d]) => (
+          <path key={x} className="sc-twinkle" d={sparkle(x, y, 8)} fill="#ffd24a" style={delay(d)} />
+        ))}
+      </g>
+    </>
+  )
 }
 
 const SCENES: Partial<Record<ThemeId, () => ReactElement>> = {
@@ -394,19 +510,22 @@ const SCENES: Partial<Record<ThemeId, () => ReactElement>> = {
   ocean: OceanScenery,
   forest: ForestScenery,
   sunset: SunsetScenery,
+  halloween: HalloweenScenery,
+  christmas: ChristmasScenery,
+  newyear: NewYearScenery,
+  valentines: ValentinesScenery,
+  stpatrick: StPatrickScenery,
 }
 
 export function Scenery() {
   const { theme, effects } = useAppearance()
   const Scene = SCENES[theme]
-  const holiday = getHoliday()
   // Minimal has no scenery on purpose.
   if (effects === 'off' || theme === 'minimal') return null
   return (
     <div className="scenery" aria-hidden="true">
       <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMax slice">
         {Scene && <Scene />}
-        {holiday && <HolidayScenery holiday={holiday} />}
       </svg>
     </div>
   )

@@ -51,6 +51,36 @@ const LINES: Record<ThemeId, readonly string[]> = {
     'I do not wear the crown. I just keep it organized.',
     'A day well planned is a day well spent.',
   ],
+  halloween: [
+    'Boo! Did I scare you? Good. Now back to planning.',
+    'I have no bones to pick, only dates to keep.',
+    'Fun fact: I was a very round pumpkin before this job.',
+    'Trick or treat? Treat yourself to a break.',
+  ],
+  christmas: [
+    'I am not afraid of the cold. I am afraid of warm days.',
+    'Make a list, check it twice. I will hold your carrot.',
+    'Every snowflake is different. So is every day on your calendar.',
+    'Be kind to yourself. It is the season for it.',
+  ],
+  newyear: [
+    'Tick tock. I have been counting to midnight all year.',
+    'Fresh calendar, fresh start. No pressure.',
+    'Resolution: add one event today. Done? Good.',
+    'Every day is a little new year if you plan it right.',
+  ],
+  valentines: [
+    'You are the best thing on my calendar.',
+    'I wear my heart on my sleeve. I do not have sleeves.',
+    'Be kind to someone today. Start with yourself.',
+    'Roses are red, violets are blue, I added your plans, and I am here for you.',
+  ],
+  stpatrick: [
+    'I have four leaves and zero worries.',
+    'Luck is just good planning with a little sparkle.',
+    'May your meetings be short and your breaks be long.',
+    'Find a pot of gold at the end of your to-do list.',
+  ],
 }
 
 let lastLine = ''

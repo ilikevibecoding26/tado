@@ -1,3 +1,6 @@
+import { isInSeason } from '../fun/holidays'
+import type { HolidayId } from '../fun/holidays'
+
 export const THEMES = [
   { id: 'tado', name: 'TaDo', description: 'The original purple' },
   { id: 'minimal', name: 'Minimal', description: 'Plain black and white' },
@@ -8,6 +11,11 @@ export const THEMES = [
   { id: 'forest', name: 'Forest', description: 'Calm greens' },
   { id: 'sunset', name: 'Sunset', description: 'Warm orange and rose' },
   { id: 'gold', name: 'Gold', description: 'A reward for the busiest planners' },
+  { id: 'halloween', name: 'Halloween', description: 'Pumpkins and bats, October only' },
+  { id: 'christmas', name: 'Christmas', description: 'Snow and cheer, December only' },
+  { id: 'newyear', name: 'New Year', description: 'Midnight fireworks, around New Year' },
+  { id: 'valentines', name: "Valentine's Day", description: 'Hearts and pinks, early February' },
+  { id: 'stpatrick', name: "St Patrick's Day", description: 'Clovers and gold, mid March' },
 ] as const
 
 export type ThemeId = (typeof THEMES)[number]['id']
@@ -17,6 +25,18 @@ export const SECRET_THEMES: readonly ThemeId[] = ['gold']
 
 /** Events needed to unlock the secret Gold theme (the top planner level). */
 export const GOLD_UNLOCK_EVENTS = 100
+
+/** Holiday themes: they appear in Settings only during their season (see features/fun/holidays.ts). */
+export const SEASONAL_THEMES: readonly ThemeId[] = ['halloween', 'christmas', 'newyear', 'valentines', 'stpatrick']
+
+export function isSeasonalTheme(id: ThemeId): id is ThemeId & HolidayId {
+  return SEASONAL_THEMES.includes(id)
+}
+
+/** Whether a theme can be picked right now: everything except a holiday theme out of season. */
+export function isThemeAvailable(id: ThemeId): boolean {
+  return !isSeasonalTheme(id) || isInSeason(id)
+}
 
 export const DEFAULT_THEME: ThemeId = 'tado'
 
@@ -29,7 +49,8 @@ export function isThemeId(value: unknown): value is ThemeId {
 export function getStoredTheme(): ThemeId {
   try {
     const stored = localStorage.getItem(STORAGE_KEY)
-    return isThemeId(stored) ? stored : DEFAULT_THEME
+    // A holiday theme goes back to the default once its season is over.
+    return isThemeId(stored) && isThemeAvailable(stored) ? stored : DEFAULT_THEME
   } catch {
     return DEFAULT_THEME
   }
@@ -104,6 +125,11 @@ export const MASCOT_NAMES: Record<ThemeId, string> = {
   forest: 'Fox',
   sunset: 'Sun',
   gold: 'Golden TaDo',
+  halloween: 'Pumpkin',
+  christmas: 'Snowman',
+  newyear: 'Midnight clock',
+  valentines: 'Heart',
+  stpatrick: 'Clover',
 }
 
 const MASCOT_KEY = 'tado-mascot'

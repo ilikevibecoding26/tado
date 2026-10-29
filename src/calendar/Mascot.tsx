@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties, MouseEvent, PointerEvent } from 'react'
 import { createPortal } from 'react-dom'
 import { registerMascotTap, useAppearance } from '../features/theme/appearance'
+import { isSeasonalTheme } from '../features/theme/theme'
 import { burstConfetti } from '../features/fun/confetti'
 import { playPop } from '../features/fun/sound'
 import { getHoliday } from '../features/fun/holidays'
@@ -66,7 +67,8 @@ export function Mascot({ size = 56 }: { size?: number }) {
   const magicWord = effects === 'off' ? null : (magic?.word ?? null)
   // Between midnight and 5am the mascot droops and yawns.
   const sleepy = effects !== 'off' && (isLateNight() || magicWord === 'sleep')
-  const costume = magicWord === 'birthday' ? 'birthday' : effects === 'off' ? null : getHoliday()
+  // A holiday theme's own mascot already dresses for the occasion.
+  const costume = magicWord === 'birthday' ? 'birthday' : effects === 'off' || isSeasonalTheme(character) ? null : getHoliday()
 
   const [bubble, setBubble] = useState<Bubble | null>(null)
   const svgRef = useRef<SVGSVGElement>(null)

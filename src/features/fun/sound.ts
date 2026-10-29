@@ -69,6 +69,35 @@ const SOUNDS: Record<ThemeId, Note[]> = {
     { at: 0.1, freq: 659, duration: 0.45, wave: 'triangle', gain: 0.09 },
     { at: 0.2, freq: 784, duration: 0.6, wave: 'triangle', gain: 0.09 },
   ],
+  // A low, creaky two-note drop.
+  halloween: [
+    { at: 0, freq: 330, glideTo: 220, duration: 0.3, wave: 'triangle', gain: 0.11 },
+    { at: 0.14, freq: 247, glideTo: 165, duration: 0.35, wave: 'sine', gain: 0.1 },
+  ],
+  // Sleigh-bell jingles.
+  christmas: [
+    { at: 0, freq: 2093, duration: 0.3, wave: 'sine', gain: 0.08 },
+    { at: 0.08, freq: 2637, duration: 0.3, wave: 'sine', gain: 0.07 },
+    { at: 0.16, freq: 3136, duration: 0.4, wave: 'sine', gain: 0.06 },
+    { at: 0.24, freq: 2093, duration: 0.4, wave: 'triangle', gain: 0.04 },
+  ],
+  // A pop and a sparkle.
+  newyear: [
+    { at: 0, freq: 300, glideTo: 900, duration: 0.12, wave: 'square', gain: 0.05 },
+    { at: 0.1, freq: 1760, duration: 0.35, wave: 'sine', gain: 0.07 },
+    { at: 0.18, freq: 2349, duration: 0.4, wave: 'sine', gain: 0.05 },
+  ],
+  // Two warm notes, rising.
+  valentines: [
+    { at: 0, freq: 523, glideTo: 560, duration: 0.4, wave: 'sine', gain: 0.11 },
+    { at: 0.12, freq: 659, glideTo: 700, duration: 0.5, wave: 'sine', gain: 0.1 },
+  ],
+  // A cheery pluck.
+  stpatrick: [
+    { at: 0, freq: 660, duration: 0.12, wave: 'triangle', gain: 0.12 },
+    { at: 0.09, freq: 880, duration: 0.12, wave: 'triangle', gain: 0.11 },
+    { at: 0.18, freq: 1108, duration: 0.3, wave: 'triangle', gain: 0.1 },
+  ],
 }
 
 function playNote(ctx: AudioContext, note: Note, offset: number, volume: number, pitch: number): void {

@@ -179,6 +179,61 @@ const VOICES: Record<ThemeId, Voice> = {
       'Endless summer',
     ],
   },
+  halloween: {
+    empty: [
+      'Spooky quiet in here.',
+      'Nothing lurking on the calendar. Yet.',
+      'Not a single bat on the schedule.',
+      'A blank night. Plan something wicked.',
+    ],
+    todoEmpty: 'No tricks on the list. Add a treat.',
+    night: ['The witching hour. Shouldn\'t you be asleep?', 'Even ghosts head to bed eventually.'],
+    milestones: ['Empty crypt', 'First boo!', 'Creeping along', 'Haunting the schedule', 'Spooky planner', 'Monster of the month', 'Count Calendula'],
+  },
+  christmas: {
+    empty: [
+      'Quiet as fresh snow.',
+      'Nothing under the tree yet.',
+      'A blank day. Hang a plan on it?',
+      'Cozy and clear. Add something merry.',
+    ],
+    todoEmpty: 'The list is clear. Add something merry.',
+    night: ['Snow is falling. Time for bed.', 'Even Santa sleeps sometime.'],
+    milestones: ['Bare branch', 'First ornament!', 'Tinsel time', 'Holly jolly', 'Gift wrapper', 'Winter wonder', 'North Pole planner'],
+  },
+  newyear: {
+    empty: [
+      'A brand new year, a blank calendar.',
+      'Nothing yet. Make the first plan of the year.',
+      'Fresh page. Where do we start?',
+      'Midnight is coming. Plan something big.',
+    ],
+    todoEmpty: 'Clean slate. Add a resolution.',
+    night: ['It is the new year. Rest up for it.', 'Past midnight. Happy new day.'],
+    milestones: ['Before midnight', 'First tick!', 'Counting down', 'Resolutions made', 'Party planner', 'Year in review', 'Time traveler'],
+  },
+  valentines: {
+    empty: [
+      'No plans yet. Ask someone out?',
+      'A day full of possibilities.',
+      'Nothing on the calendar. Plan something sweet.',
+      'Leave room in your heart and your schedule.',
+    ],
+    todoEmpty: 'Nothing to do. Do something kind for someone.',
+    night: ['Sweet dreams.', 'Even hearts need rest.'],
+    milestones: ['Open heart', 'First spark!', 'Warming up', 'Sweetheart', 'Hopeless romantic', 'Cupid\'s favorite', 'Love planner'],
+  },
+  stpatrick: {
+    empty: [
+      'Not a clover in sight. Add a plan?',
+      'A lucky blank day.',
+      'Nothing scheduled. Feeling lucky?',
+      'Room for a rainbow here.',
+    ],
+    todoEmpty: 'Nothing left. You are in luck.',
+    night: ['Luck favors the well rested.', 'The leprechauns are asleep. So should you be.'],
+    milestones: ['Lone clover', 'First leaf!', 'Lucky streak', 'Pot of gold', 'Rainbow chaser', 'Four-leaf legend', 'High king of luck'],
+  },
 }
 
 // With effects off, every theme speaks in the default TaDo voice.

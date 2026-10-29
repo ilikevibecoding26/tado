@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { startParty, useAppearance } from '../features/theme/appearance'
-import { THEMES } from '../features/theme/theme'
+import { SEASONAL_THEMES, THEMES } from '../features/theme/theme'
 import type { ThemeId } from '../features/theme/theme'
 import { burstConfetti } from '../features/fun/confetti'
 import { playPop } from '../features/fun/sound'
@@ -42,7 +42,7 @@ export function PartyMode() {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const timers: ReturnType<typeof setTimeout>[] = []
     if (!reduceMotion) {
-      const themes: ThemeId[] = THEMES.map((t) => t.id).filter((id) => id !== 'gold' || goldMascot)
+      const themes: ThemeId[] = THEMES.map((t) => t.id).filter((id) => (id !== 'gold' || goldMascot) && !SEASONAL_THEMES.includes(id))
       for (let i = 0; i * BURST_EVERY_MS < PARTY_MS - 1500; i++) {
         timers.push(
           setTimeout(() => {
@@ -59,7 +59,7 @@ export function PartyMode() {
 
   if (running === null || running !== party) return null
 
-  const parade: ThemeId[] = THEMES.map((t) => t.id).filter((id) => id !== 'gold' || goldMascot)
+  const parade: ThemeId[] = THEMES.map((t) => t.id).filter((id) => (id !== 'gold' || goldMascot) && !SEASONAL_THEMES.includes(id))
   return (
     <>
       <div className="party" aria-hidden="true">

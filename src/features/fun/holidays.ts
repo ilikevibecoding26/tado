@@ -26,3 +26,23 @@ export function getHoliday(date: Date = new Date()): HolidayId | null {
   if (month === 3 && day >= 16 && day <= 17) return 'stpatrick'
   return null
 }
+
+// The stretch of the year each holiday theme can be picked in Settings (inclusive, as [month, day]).
+const SEASONS: Record<HolidayId, { from: [number, number]; to: [number, number] }> = {
+  halloween: { from: [10, 1], to: [11, 1] },
+  christmas: { from: [12, 1], to: [12, 31] },
+  newyear: { from: [12, 26], to: [1, 7] },
+  valentines: { from: [2, 1], to: [2, 14] },
+  stpatrick: { from: [3, 1], to: [3, 17] },
+}
+
+/** Whether a holiday theme can be picked right now (always, when previewing with ?holiday=). */
+export function isInSeason(id: HolidayId, date: Date = new Date()): boolean {
+  if (forced === id) return true
+  const today = (date.getMonth() + 1) * 100 + date.getDate()
+  const { from, to } = SEASONS[id]
+  const start = from[0] * 100 + from[1]
+  const end = to[0] * 100 + to[1]
+  // A season that wraps past New Year (December into January).
+  return start <= end ? today >= start && today <= end : today >= start || today <= end
+}

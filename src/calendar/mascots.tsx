@@ -162,7 +162,97 @@ function GoldenGuy() {
   )
 }
 
+function Pumpkin() {
+  return (
+    <>
+      <ellipse cx="29" cy="58" rx="24" ry="30" fill="#d9661a" />
+      <ellipse cx="71" cy="58" rx="24" ry="30" fill="#d9661a" />
+      <ellipse cx="50" cy="58" rx="22" ry="32" fill="#ff8a3d" />
+      <path d="M44 28Q50 17 56 28L54 34H46Z" fill="#4a7c2a" />
+      <path d="M30 50L42 50L36 38Z" fill="#3b1d05" />
+      <path d="M58 50L70 50L64 38Z" fill="#3b1d05" />
+      <path d="M31 66L39 73L46 66L54 73L61 66L69 66Q66 82 50 84Q34 82 31 66Z" fill="#3b1d05" />
+      <path d="M44 74l3 6l3-6Z" fill="#ffd45e" />
+    </>
+  )
+}
+
+function Snowman() {
+  return (
+    <>
+      <path d="M28 66L12 54M72 66L88 54" stroke="#7a4b21" strokeWidth="3" strokeLinecap="round" />
+      <circle cx="50" cy="73" r="24" fill="#ffffff" stroke="#cfe3f5" strokeWidth="2" />
+      <circle cx="50" cy="40" r="19" fill="#ffffff" stroke="#cfe3f5" strokeWidth="2" />
+      <rect x="35" y="19" width="30" height="6" rx="2" fill="#2b2b3a" />
+      <rect x="40" y="5" width="20" height="16" rx="2" fill="#2b2b3a" />
+      <rect x="40" y="14" width="20" height="4" fill="#c8102e" />
+      <circle cx="43" cy="37" r="2.6" fill="#222" />
+      <circle cx="57" cy="37" r="2.6" fill="#222" />
+      <path d="M50 41L67 44L50 47Z" fill="#ff8a3d" />
+      <path d="M42 49Q50 56 58 49" stroke="#222" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+      <path d="M32 56Q50 64 68 56L70 64Q50 72 30 64Z" fill="#c8102e" />
+      <rect x="60" y="60" width="8" height="18" rx="2" fill="#a30d24" />
+      <circle cx="50" cy="76" r="2.6" fill="#222" />
+      <circle cx="50" cy="87" r="2.6" fill="#222" />
+    </>
+  )
+}
+
+function MidnightClock() {
+  return (
+    <>
+      <circle cx="50" cy="58" r="34" fill="#fff6d6" stroke="var(--accent)" strokeWidth="5" />
+      <g stroke="#0a0e24" strokeWidth="3" strokeLinecap="round">
+        <path d="M50 28v5M50 83v5M20 58h5M75 58h5" />
+      </g>
+      <path d="M50 58V36" stroke="#0a0e24" strokeWidth="4" strokeLinecap="round" />
+      <path d="M50 58V44" stroke="#0a0e24" strokeWidth="6" strokeLinecap="round" />
+      <circle cx="40" cy="66" r="3.5" fill="#0a0e24" />
+      <circle cx="60" cy="66" r="3.5" fill="#0a0e24" />
+      <path d="M40 75Q50 83 60 75" stroke="#0a0e24" strokeWidth="3.5" strokeLinecap="round" fill="none" />
+      <path d="M36 28L50 4L64 28Z" fill="#ff5fa2" />
+      <path d="M41 21L59 21M45 13L55 13" stroke="#ffd166" strokeWidth="3" strokeLinecap="round" />
+      <circle cx="50" cy="5" r="4.5" fill="#ffd166" />
+    </>
+  )
+}
+
+function HeartFace() {
+  return (
+    <>
+      <path d="M50 91C16 65 6 47 6 33C6 19 17 10 29 10C39 10 46 16 50 23C54 16 61 10 71 10C83 10 94 19 94 33C94 47 84 65 50 91Z" fill="var(--accent)" />
+      <path d="M19 28Q21 19 30 18" stroke="#ffffff" strokeOpacity=".5" strokeWidth="4" strokeLinecap="round" fill="none" />
+      <circle cx="37" cy="44" r="4.5" fill="var(--accent-contrast)" />
+      <circle cx="63" cy="44" r="4.5" fill="var(--accent-contrast)" />
+      <circle cx="27" cy="56" r="5" fill="#ffffff" fillOpacity=".3" />
+      <circle cx="73" cy="56" r="5" fill="#ffffff" fillOpacity=".3" />
+      <path d="M41 56Q50 65 59 56" stroke="var(--accent-contrast)" strokeWidth="3.5" strokeLinecap="round" fill="none" />
+    </>
+  )
+}
+
+function Clover() {
+  const leaf = 'M50 50C36 41 28 29 32 19C36 9 46 11 50 21C54 11 64 9 68 19C72 29 64 41 50 50Z'
+  return (
+    <>
+      <path d="M50 52Q55 74 68 88" stroke="var(--accent)" strokeWidth="5" strokeLinecap="round" fill="none" />
+      {[0, 90, 180, 270].map((angle) => (
+        <path key={angle} d={leaf} fill="var(--accent)" transform={`rotate(${angle} 50 50)`} stroke="var(--accent-contrast)" strokeOpacity=".25" strokeWidth="1.5" />
+      ))}
+      <circle cx="50" cy="50" r="13" fill="var(--accent)" />
+      <circle cx="45" cy="47" r="2.6" fill="var(--accent-contrast)" />
+      <circle cx="55" cy="47" r="2.6" fill="var(--accent-contrast)" />
+      <path d="M44 53Q50 59 56 53" stroke="var(--accent-contrast)" strokeWidth="2.6" strokeLinecap="round" fill="none" />
+    </>
+  )
+}
+
 export const MASCOTS: Record<ThemeId, () => ReactElement> = {
+  halloween: Pumpkin,
+  christmas: Snowman,
+  newyear: MidnightClock,
+  valentines: HeartFace,
+  stpatrick: Clover,
   gold: GoldenGuy,
   tado: CalendarGuy,
   minimal: DotFace,
